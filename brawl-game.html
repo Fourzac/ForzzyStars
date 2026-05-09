@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Brawl JS</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0520;color:#e2b8ff;overflow:hidden;height:100dvh;width:100vw}
+#app{width:100%;height:100dvh;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.screen{display:none;flex-direction:column;height:100%;width:100%;position:absolute;top:0;left:0}
+.screen.active{display:flex}
+/* TOP BAR */
+.topbar{background:#12071f;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:1px solid #2a1a4e;gap:6px}
+.tb-title{color:#e2b8ff;font-size:15px;font-weight:600}
+.pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.p-trophy{background:#e67e22;color:#4a1e00}
+.p-gems{background:#2ecc71;color:#0d3d1a}
+.p-coins{background:#f1c40f;color:#5a4000}
+.p-tickets{background:#a855f7;color:#2d0a5a}
+/* NAV */
+.nav{display:flex;background:#12071f;border-top:1px solid #2a1a4e;flex-shrink:0}
+.nb{flex:1;padding:8px 2px;border:none;background:transparent;color:#8878aa;cursor:pointer;font-size:10px;text-align:center;transition:color .15s}
+.nb.active,.nb:hover{color:#e2b8ff}
+.nb-icon{font-size:20px;display:block;margin-bottom:1px}
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch}
+/* BUTTONS */
+.btn-purple{background:#a855f7;color:#fff;border:none;border-radius:10px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;width:100%}
+.btn-purple:active{transform:scale(.97)}
+.btn-yellow{background:#f1c40f;color:#5a4000;border:none;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer;font-size:13px}
+.btn-yellow:disabled{background:#3a2a5e;color:#8878aa;cursor:default}
+.btn-back{background:#3a2a5e;color:#c4a8e8;border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px}
+/* CARDS */
+.card{background:#2a1a4e;border-radius:12px;padding:12px;margin-bottom:10px}
+/* BRAWLER GRID */
+.b-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.b-card{background:#2a1a4e;border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s;position:relative}
+.b-card.sel{border-color:#a855f7}
+.b-card.locked{opacity:.5}
+.b-card.locked .b-lock{display:block}
+.b-lock{display:none;position:absolute;top:2px;right:2px;font-size:10px}
+.b-emo{font-size:26px;margin-bottom:2px}
+.b-name{font-size:10px;color:#c4a8e8;font-weight:600}
+.b-lvl{font-size:10px;color:#a855f7;margin-top:1px}
+.b-tr{font-size:9px;color:#e67e22}
+/* SEC TITLES */
+.sec{color:#e2b8ff;font-size:13px;font-weight:600;margin:12px 0 7px;text-transform:uppercase;letter-spacing:.5px}
+.sec:first-child{margin-top:0}
+/* PROFILE */
+.prof-head{background:#2a1a4e;border-radius:14px;padding:16px;text-align:center;margin-bottom:10px}
+.prof-emo{width:70px;height:70px;border-radius:50%;background:#a855f7;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 8px;cursor:pointer;border:3px solid #c084fc}
+.prof-name{color:#e2b8ff;font-size:18px;font-weight:600}
+.prof-tag{color:#8878aa;font-size:12px;margin-top:2px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.stat-card{background:#2a1a4e;border-radius:10px;padding:10px;text-align:center}
+.stat-val{color:#e2b8ff;font-size:20px;font-weight:600}
+.stat-lbl{color:#8878aa;font-size:10px;margin-top:2px}
+/* SHOP */
+.shop-item{background:#2a1a4e;border-radius:12px;padding:11px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.shop-emo{font-size:28px;width:44px;text-align:center;flex-shrink:0}
+.shop-info{flex:1;min-width:0}
+.shop-name{color:#e2b8ff;font-weight:600;font-size:14px}
+.shop-desc{color:#8878aa;font-size:11px;margin-top:1px}
+/* FRIENDS */
+.friend-item{background:#2a1a4e;border-radius:10px;padding:10px 12px;margin-bottom:7px;display:flex;align-items:center;gap:10px}
+.f-emo{width:38px;height:38px;border-radius:50%;background:#3a2a5e;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.f-name{color:#e2b8ff;font-size:14px;font-weight:600}
+.f-status{font-size:11px}
+.online{color:#2ecc71}.offline{color:#8878aa}
+/* CHEST */
+.chest-card{background:#2a1a4e;border-radius:14px;padding:16px;margin-bottom:10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.chest-card:hover{border-color:#a855f7}
+.chest-emo{font-size:48px;margin-bottom:6px}
+.chest-name{color:#e2b8ff;font-size:16px;font-weight:600}
+.chest-desc{color:#8878aa;font-size:12px;margin-top:4px}
+.chest-cost{color:#a855f7;font-size:14px;font-weight:600;margin-top:8px}
+/* MODES */
+.mode-card{background:#2a1a4e;border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;border:2px solid transparent;transition:border-color .2s;display:flex;align-items:center;gap:12px}
+.mode-card:hover{border-color:#a855f7}
+.mode-emo{font-size:32px;flex-shrink:0}
+.mode-name{color:#e2b8ff;font-size:15px;font-weight:600}
+.mode-desc{color:#8878aa;font-size:12px;margin-top:2px}
+/* UPGRADE */
+.upg-bar{height:6px;background:#3a2a5e;border-radius:3px;margin-top:4px;overflow:hidden}
+.upg-fill{height:100%;border-radius:3px;background:#a855f7;transition:width .3s}
+/* DAILY GIFT */
+.gift-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+.gift-item{background:#2a1a4e;border-radius:10px;padding:8px 10px;text-align:center;flex-shrink:0;min-width:70px;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.gift-item.claimed{border-color:#2ecc71;opacity:.6}
+.gift-item.available{border-color:#f1c40f}
+.gift-emo{font-size:22px}
+.gift-lbl{font-size:10px;color:#8878aa;margin-top:3px}
+/* MODAL */
+.modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:100;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:#1a0a2e;border-radius:16px;padding:20px;width:100%;max-width:360px;border:1px solid #2a1a4e;max-height:80vh;overflow-y:auto}
+.modal-title{color:#e2b8ff;font-size:18px;font-weight:600;margin-bottom:12px;text-align:center}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:#8878aa;font-size:20px;cursor:pointer}
+/* GAME HUD */
+#gameScreen{background:#0d0520}
+.ghud{background:#0d0520;padding:7px 10px;display:flex;align-items:center;gap:8px;flex-shrink:0;border-bottom:1px solid #1a0a3e}
+.hpw{flex:1}
+.hpl{font-size:10px;color:#8878aa;margin-bottom:2px}
+.hpb{height:6px;background:#2a1a4e;border-radius:3px;overflow:hidden}
+.hpf{height:100%;border-radius:3px;transition:width .1s}
+.ammo-pips{display:flex;gap:3px;align-items:center}
+.ap{width:12px;height:12px;border-radius:50%;background:#2a1a4e;border:1.5px solid #3a2a5e;transition:background .1s}
+.ap.full{background:#a855f7;border-color:#c084fc}
+.gad-btn{background:#2a1a4e;border:2px solid #3a2a5e;border-radius:8px;padding:4px 7px;color:#c4a8e8;font-size:10px;cursor:pointer;text-align:center;line-height:1.3;white-space:nowrap}
+.gad-btn.ready{border-color:#f1c40f;color:#f1c40f}
+.gad-btn.used{opacity:.35;cursor:default}
+#gameCanvas{display:block;flex:1;width:100%;touch-action:none}
+.gbot{background:#0d0520;padding:5px 10px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-top:1px solid #1a0a3e}
+.ginfo{color:#8878aa;font-size:10px}
+/* JOYSTICK */
+.joystick-zone{position:absolute;left:0;bottom:0;width:45%;height:45%;z-index:50;touch-action:none}
+.shoot-zone{position:absolute;right:0;bottom:0;width:45%;height:45%;z-index:50;touch-action:none;display:flex;align-items:center;justify-content:center}
+.joystick-base{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(168,85,247,.2);border:2px solid rgba(168,85,247,.4);display:none}
+.joystick-knob{position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(168,85,247,.7);transform:translate(-50%,-50%)}
+.shoot-btn{width:70px;height:70px;border-radius:50%;background:rgba(241,196,15,.3);border:3px solid rgba(241,196,15,.6);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;user-select:none}
+.gadget-mobile-btn{position:absolute;right:12%;bottom:48%;width:50px;height:50px;border-radius:50%;background:rgba(168,85,247,.4);border:3px solid #a855f7;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:51;cursor:pointer}
+/* RESULT */
+.result-overlay{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:60;align-items:center;justify-content:center;flex-direction:column}
+.result-overlay.show{display:flex}
+.result-box{background:#1a0a2e;border-radius:20px;padding:28px;text-align:center;border:2px solid #2a1a4e;width:90%;max-width:300px}
+.result-title{font-size:28px;font-weight:700;margin-bottom:8px}
+.result-sub{color:#8878aa;font-size:14px;margin-bottom:20px}
+/* TEAM SCORE */
+.team-score{display:flex;justify-content:space-between;align-items:center;background:#12071f;padding:5px 10px;flex-shrink:0}
+.ts-team{font-size:12px;font-weight:600}
+.ts-score{font-size:18px;font-weight:700}
+/* ICONS for profile */
+.icon-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.icon-item{background:#2a1a4e;border-radius:8px;padding:8px;text-align:center;cursor:pointer;border:2px solid transparent}
+.icon-item.owned{border-color:#2ecc71}
+.icon-item.sel{border-color:#a855f7}
+input[type=text]{background:#2a1a4e;border:1px solid #3a2a5e;border-radius:8px;padding:8px 12px;color:#e2b8ff;font-size:14px;width:100%;margin-bottom:10px}
+input[type=text]:focus{outline:none;border-color:#a855f7}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- HOME -->
+<div id="homeScreen" class="screen active">
+  <div class="topbar">
+    <span class="tb-title">⚡ Brawl JS</span>
+    <div class="pills">
+      <span class="pill p-trophy" id="hTrophy">🏆 0</span>
+      <span class="pill p-gems" id="hGems">💎 120</span>
+      <span class="pill p-coins" id="hCoins">🪙 1500</span>
+      <span class="pill p-tickets" id="hTickets">🎟 50</span>
+    </div>
+  </div>
+  <div class="content">
+    <div id="dailyGiftRow"></div>
+    <div class="sec">Режим гри</div>
+    <div id="modeCards"></div>
+    <div class="sec">Обери бійця</div>
+    <div class="b-grid" id="homeGrid"></div>
+    <div id="selInfo" class="card" style="margin-top:8px;display:none">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span id="selEmo" style="font-size:30px"></span>
+        <div>
+          <div style="color:#e2b8ff;font-weight:600;font-size:15px" id="selName"></div>
+          <div style="color:#8878aa;font-size:11px" id="selDesc"></div>
+          <div style="color:#a855f7;font-size:11px;margin-top:2px" id="selGadgetDesc"></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="color:#8878aa;font-size:12px">Сила <span id="selPow" style="color:#a855f7"></span></span>
+        <button onclick="openUpgrade()" style="background:#3a2a5e;color:#a855f7;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">⬆ Прокачати</button>
+      </div>
+      <div style="color:#8878aa;font-size:11px">🏆 Трофеїв: <span id="selTrophy" style="color:#e67e22"></span></div>
+    </div>
+    <button class="btn-purple" onclick="startGame()" style="margin-top:10px">⚔️ Грати!</button>
+  </div>
+  <div class="nav">
+    <button class="nb active" onclick="goTab('home',this)"><span class="nb-icon">⚔️</span>Грати</button>
+    <button class="nb" onclick="goTab('chests',this)"><span class="nb-icon">📦</span>Скрині</button>
+    <button class="nb" onclick="goTab('shop',this)"><span class="nb-icon">🛒</span>Магазин</button>
+    <button class="nb" onclick="goTab('profile',this)"><span class="nb-icon">👤</span>Профіль</button>
+    <button class="nb" onclick="goTab('friends',this)"><span class="nb-icon">👥</span>Друзі</button>
+  </div>
+</div>
+
+<!-- CHESTS -->
+<div id="chestsScreen" class="screen">
+  <div class="topbar">
+    <button class="btn-back" onclick="goTab('home')">← Назад</button>
+    <span class="tb-title">Скрині</span>
+    <span class="pill p-tickets" id="chestTickets">🎟 50</span>
+  </div>
+  <div class="content">
+    <div class="sec">Відкрити скриню</div>
+    <div id="chestCards"></div>
+  </div>
+  <div class="nav">
+    <button class="nb" onclick="goTab('home',this)"><span class="nb-icon">⚔️</span>Грати</button>
+    <button class="nb active" onclick="goTab('chests',this)"><span class="nb-icon">📦</span>Скрині</button>
+    <button class="nb" onclick="goTab('shop',this)"><span class="nb-icon">🛒</span>Магазин</button>
+    <button class="nb" onclick="goTab('profile',this)"><span class="nb-icon">👤</span>Профіль</button>
+    <button class="nb" onclick="goTab('friends',this)"><span class="nb-icon">👥</span>Друзі</button>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div id="shopScreen" class="screen">
+  <div class="topbar">
+    <button class="btn-back" onclick="goTab('home')">← Назад</button>
+    <span class="tb-title">Магазин</span>
+    <div class="pills">
+      <span class="pill p-gems" id="shopGems">💎 120</span>
+      <span class="pill p-coins" id="shopCoins">🪙 1500</span>
+    </div>
+  </div>
+  <div class="content" id="shopContent"></div>
+  <div class="nav">
+    <button class="nb" onclick="goTab('home',this)"><span class="nb-icon">⚔️</span>Грати</button>
+    <button class="nb" onclick="goTab('chests',this)"><span class="nb-icon">📦</span>Скрині</button>
+    <button class="nb active" onclick="goTab('shop',this)"><span class="nb-icon">🛒</span>Магазин</button>
+    <button class="nb" onclick="goTab('profile',this)"><span class="nb-icon">👤</span>Профіль</button>
+    <button class="nb" onclick="goTab('friends',this)"><span class="nb-icon">👥</span>Друзі</button>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div id="profileScreen" class="screen">
+  <div class="topbar">
+    <button class="btn-back" onclick="goTab('home')">← Назад</button>
+    <span class="tb-title">Профіль</span>
+    <span class="pill p-gems" id="profGems">💎 120</span>
+  </div>
+  <div class="content">
+    <div class="prof-head">
+      <div class="prof-emo" id="profEmo" onclick="openIconModal()">🐚</div>
+      <div class="prof-name" id="profNameDisp">Гравець</div>
+      <div class="prof-tag">#UKR2026</div>
+      <div style="margin-top:8px"><button onclick="openNickModal()" style="background:#3a2a5e;border:none;border-radius:6px;padding:5px 12px;color:#a855f7;cursor:pointer;font-size:12px">✏️ Змінити нікнейм (💎10)</button></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-val" id="stTrophy">0</div><div class="stat-lbl">Трофеїв</div></div>
+      <div class="stat-card"><div class="stat-val" id="stWins">0</div><div class="stat-lbl">Перемог</div></div>
+      <div class="stat-card"><div class="stat-val" id="stBrawlers">3</div><div class="stat-lbl">Бійців</div></div>
+    </div>
+    <div class="sec">Мої бійці</div>
+    <div class="b-grid" id="myGrid"></div>
+  </div>
+  <div class="nav">
+    <button class="nb" onclick="goTab('home',this)"><span class="nb-icon">⚔️</span>Грати</button>
+    <button class="nb" onclick="goTab('chests',this)"><span class="nb-icon">📦</span>Скрині</button>
+    <button class="nb" onclick="goTab('shop',this)"><span class="nb-icon">🛒</span>Магазин</button>
+    <button class="nb active" onclick="goTab('profile',this)"><span class="nb-icon">👤</span>Профіль</button>
+    <button class="nb" onclick="goTab('friends',this)"><span class="nb-icon">👥</span>Друзі</button>
+  </div>
+</div>
+
+<!-- FRIENDS -->
+<div id="friendsScreen" class="screen">
+  <div class="topbar">
+    <button class="btn-back" onclick="goTab('home')">← Назад</button>
+    <span class="tb-title">Друзі</span>
+    <div></div>
+  </div>
+  <div class="content" id="friendsContent"></div>
+  <div class="nav">
+    <button class="nb" onclick="goTab('home',this)"><span class="nb-icon">⚔️</span>Грати</button>
+    <button class="nb" onclick="goTab('chests',this)"><span class="nb-icon">📦</span>Скрині</button>
+    <button class="nb" onclick="goTab('shop',this)"><span class="nb-icon">🛒</span>Магазин</button>
+    <button class="nb" onclick="goTab('profile',this)"><span class="nb-icon">👤</span>Профіль</button>
+    <button class="nb active" onclick="goTab('friends',this)"><span class="nb-icon">👥</span>Друзі</button>
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen" style="display:none;flex-direction:column;height:100%;position:absolute;top:0;left:0;width:100%;z-index:10">
+  <div class="ghud">
+    <button class="btn-back" style="padding:4px 8px;font-size:12px" onclick="exitGame()">✕</button>
+    <div class="hpw">
+      <div class="hpl" id="pLabel">Ти</div>
+      <div class="hpb"><div class="hpf" id="pHp" style="width:100%;background:#2ecc71"></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+      <div class="ammo-pips" id="ammoRow"></div>
+      <div style="font-size:9px;color:#8878aa">патрони</div>
+    </div>
+    <div>
+      <div class="gad-btn ready" id="gadgetBtn" onclick="useGadget()">Q<br><span id="gadgetName" style="font-size:9px">Гаджет</span></div>
+      <div style="font-size:9px;color:#8878aa;text-align:center" id="gadgetCount"></div>
+    </div>
+    <div class="hpw" style="text-align:right">
+      <div class="hpl" style="text-align:right" id="eLabel">Бот</div>
+      <div class="hpb"><div class="hpf" id="eHp" style="width:100%;background:#e74c3c"></div></div>
+    </div>
+  </div>
+  <div class="team-score" id="teamScore" style="display:none">
+    <div class="ts-team" style="color:#3498db">🟦 <span id="blueScore">0</span></div>
+    <div style="color:#8878aa;font-size:11px" id="modeLabel">3 на 3</div>
+    <div class="ts-team" style="color:#e74c3c"><span id="redScore">0</span> 🟥</div>
+  </div>
+  <canvas id="gameCanvas" style="flex:1;width:100%;display:block;touch-action:none"></canvas>
+  <div class="gbot">
+    <span class="ginfo">WASD / джойстик — рух | Клік/кнопка — стріл</span>
+    <span id="reloadInfo" style="color:#a855f7;font-size:10px"></span>
+  </div>
+  <!-- Mobile controls -->
+  <div class="joystick-zone" id="joystickZone">
+    <div class="joystick-base" id="jBase">
+      <div class="joystick-knob" id="jKnob"></div>
+    </div>
+  </div>
+  <div class="shoot-zone" id="shootZone">
+    <div class="shoot-btn" id="shootBtn">🔥</div>
+  </div>
+  <div class="gadget-mobile-btn" id="gadgetMobile" onclick="useGadget()">Q</div>
+  <div class="result-overlay" id="resultOverlay">
+    <div class="result-box">
+      <div class="result-title" id="resTitle">Перемога!</div>
+      <div class="result-sub" id="resSub">+3 🏆</div>
+      <div id="resRewards" style="margin-bottom:16px;font-size:13px;color:#a855f7"></div>
+      <button class="btn-purple" onclick="exitGame()">В меню</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="upgradeModal">
+  <div class="modal">
+    <div class="modal-title">⬆ Прокачати бійця</div>
+    <div id="upgradeContent"></div>
+    <button class="btn-back" onclick="closeModal('upgradeModal')" style="width:100%;margin-top:8px">Закрити</button>
+  </div>
+</div>
+<div class="modal-bg" id="chestModal">
+  <div class="modal">
+    <div class="modal-title" id="chestModalTitle">📦 Скриня</div>
+    <div id="chestRewards" style="text-align:center;padding:10px 0"></div>
+    <button class="btn-purple" onclick="closeModal('chestModal')">Забрати!</button>
+  </div>
+</div>
+<div class="modal-bg" id="iconModal">
+  <div class="modal">
+    <div class="modal-title">🖼 Іконка профілю</div>
+    <div style="color:#8878aa;font-size:12px;margin-bottom:10px;text-align:center">Деякі іконки купуються за 💎</div>
+    <div class="icon-grid" id="iconGrid"></div>
+    <button class="btn-back" onclick="closeModal('iconModal')" style="width:100%;margin-top:10px">Закрити</button>
+  </div>
+</div>
+<div class="modal-bg" id="nickModal">
+  <div class="modal">
+    <div class="modal-title">✏️ Змінити нікнейм</div>
+    <input type="text" id="nickInput" placeholder="Новий нікнейм..." maxlength="16">
+    <div style="color:#8878aa;font-size:12px;margin-bottom:10px">Вартість: 💎 10</div>
+    <button class="btn-purple" onclick="changeNick()">Змінити (💎10)</button>
+    <button class="btn-back" onclick="closeModal('nickModal')" style="width:100%;margin-top:6px">Скасувати</button>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const BRAWLERS=[
+  {id:'shelly',name:'Shelly',emo:'🐚',color:'#e67e22',baseHp:5600,baseDmg:560,speed:4.2,maxAmmo:3,reload:65,shots:3,spread:.25,bspeed:8,range:280,desc:'Дробовик — 3 кулі конусом',gadget:'Перекид',gadgetDesc:'Ривок вперед',gadgetUses:3,cost:0,rarity:'common'},
+  {id:'colt',name:'Colt',emo:'🔫',color:'#3498db',baseHp:3400,baseDmg:680,speed:5,maxAmmo:6,reload:38,shots:1,spread:0,bspeed:13,range:500,desc:'Пістолет — 6 патронів, далека дальність',gadget:'Аптечка',gadgetDesc:'Відновлює HP',gadgetUses:2,cost:0,rarity:'common'},
+  {id:'bull',name:'Bull',emo:'🐂',color:'#e74c3c',baseHp:7200,baseDmg:840,speed:3.8,maxAmmo:3,reload:80,shots:5,spread:.35,bspeed:7,range:200,desc:'Дробовик ближнього бою',gadget:'Заряд',gadgetDesc:'Ривок вперед',gadgetUses:3,cost:0,rarity:'common'},
+  {id:'brock',name:'Brock',emo:'🚀',color:'#f39c12',baseHp:3200,baseDmg:1000,speed:4.2,maxAmmo:4,reload:90,shots:1,spread:0,bspeed:11,range:600,desc:'Ракети — потужний урон',gadget:'Ракетний дощ',gadgetDesc:'3 ракети по ворогу',gadgetUses:2,cost:500,rarity:'rare'},
+  {id:'nita',name:'Nita',emo:'🐻',color:'#8e44ad',baseHp:4200,baseDmg:800,speed:4,maxAmmo:3,reload:65,shots:2,spread:.1,bspeed:9,range:350,desc:'Ведмедиця — 2 кулі',gadget:'Лікування',gadgetDesc:'Відновлює HP',gadgetUses:2,cost:500,rarity:'rare'},
+  {id:'piper',name:'Piper',emo:'☂️',color:'#fd79a8',baseHp:2800,baseDmg:1400,speed:4.5,maxAmmo:2,reload:100,shots:1,spread:0,bspeed:15,range:700,desc:'Снайпер — великий урон',gadget:'Стрибок назад',gadgetDesc:'Стрибок + 2 постріли',gadgetUses:2,cost:800,rarity:'rare'},
+  {id:'poco',name:'Poco',emo:'🎸',color:'#e056fd',baseHp:4800,baseDmg:560,speed:4,maxAmmo:3,reload:60,shots:3,spread:.2,bspeed:9,range:320,desc:'Музикант — широкий постріл',gadget:'Соло хіл',gadgetDesc:'Відновлює багато HP',gadgetUses:1,cost:600,rarity:'rare'},
+  {id:'jessie',name:'Jessie',emo:'⚡',color:'#2ecc71',baseHp:3800,baseDmg:760,speed:4,maxAmmo:3,reload:75,shots:1,spread:.05,bspeed:10,range:400,desc:'Ланцюгова куля — рикошет',gadget:'Турель',gadgetDesc:'Міні-турель',gadgetUses:1,cost:700,rarity:'rare'},
+  {id:'sandy',name:'Sandy',emo:'🌪️',color:'#f4a261',baseHp:4400,baseDmg:720,speed:4.3,maxAmmo:4,reload:55,shots:2,spread:.15,bspeed:9,range:380,desc:'Піщаний вихор — 2 кулі',gadget:'Невидимість',gadgetDesc:'3 сек невидимість',gadgetUses:1,cost:0,rarity:'epic'},
+  {id:'crow',name:'Crow',emo:'🐦',color:'#2d3436',baseHp:3000,baseDmg:600,speed:5.2,maxAmmo:5,reload:45,shots:3,spread:.3,bspeed:11,range:420,desc:'Отруйні кинджали — 3 кулі',gadget:'Стрибок',gadgetDesc:'Великий стрибок вперед',gadgetUses:2,cost:0,rarity:'epic'},
+  {id:'leon',name:'Leon',emo:'🦎',color:'#00b894',baseHp:3600,baseDmg:900,speed:4.8,maxAmmo:3,reload:70,shots:4,spread:.28,bspeed:10,range:260,desc:'Шаркани — 4 кулі конусом',gadget:'Невидимість',gadgetDesc:'Стає невидимим 4 сек',gadgetUses:1,cost:0,rarity:'legendary'},
+  {id:'spike',name:'Spike',emo:'🌵',color:'#55efc4',baseHp:3200,baseDmg:1100,speed:3.9,maxAmmo:3,reload:85,shots:1,spread:.4,bspeed:8,range:350,desc:'Кактус — куля розлітається',gadget:'Міні-кактуси',gadgetDesc:'5 кактусів навколо',gadgetUses:1,cost:0,rarity:'legendary'},
+];
+
+const ICONS=['🐚','🔫','🐂','🚀','🐻','☂️','🎸','⚡','🌪️','🐦','🦎','🌵','⭐','💎','🔥','❄️','👑','🦁','🐉','🎯'];
+const ICON_COSTS={0:0,1:0,2:0,3:30,4:30,5:50,6:50,7:50,8:80,9:80,10:100,11:100,12:0,13:50,14:30,15:30,16:80,17:50,18:100,19:30};
+
+const MODES=[
+  {id:'duel',name:'Дуель',emo:'⚔️',desc:'1 на 1 з ботом. Класичний режим.',bots:1,team:false},
+  {id:'brawl3',name:'3 на 3',emo:'🤝',desc:'Команда 3 проти 3. Знищіть ворогів!',bots:5,team:true},
+  {id:'clash',name:'Зіткнення',emo:'💥',desc:'Всі проти всіх! Виживи останнім.',bots:7,team:false,ffa:true},
+];
+
+const DAILY_GIFTS=[
+  {emo:'🪙',name:'+200 монет',type:'coins',val:200},
+  {emo:'🎟',name:'+30 білетів',type:'tickets',val:30},
+  {emo:'🪙',name:'+500 монет',type:'coins',val:500},
+  {emo:'💎',name:'+10 кристалів',type:'gems',val:10},
+  {emo:'🎟',name:'+80 білетів',type:'tickets',val:80},
+  {emo:'⭐',name:'Скриня рідкісна',type:'chest',val:'rare'},
+];
+
+const WIN_GIFTS=[
+  {emo:'🪙',name:'+100 монет',type:'coins',val:100},
+  {emo:'🎟',name:'+20 білетів',type:'tickets',val:20},
+  {emo:'🪙',name:'+300 монет',type:'coins',val:300},
+  {emo:'💎',name:'+5 кристалів',type:'gems',val:5},
+  {emo:'🎟',name:'+50 білетів',type:'tickets',val:50},
+  {emo:'⭐',name:'Скриня рідкісна',type:'chest',val:'rare'},
+];
+
+const UPGRADE_COSTS=[0,200,400,800,1500,2500,4000,6000,9000,13000];
+
+// ===== SAVE STATE =====
+function defState(){return{
+  coins:1500,gems:120,tickets:50,wins:0,
+  nick:'Гравець',icon:'🐚',
+  ownedIcons:[0,1,2,12],
+  brawlers:BRAWLERS.map((b,i)=>({id:b.id,owned:i<3||b.rarity==='epic'||b.rarity==='legendary'?i<3:false,power:1,trophies:0})),
+  dailyClaimed:[],dailyDate:'',
+  selBrawler:'shelly',selMode:'duel',
+}}
+let S=JSON.parse(localStorage.getItem('brawljs')||'null')||defState();
+// migrate new brawlers
+BRAWLERS.forEach((b,i)=>{if(!S.brawlers.find(x=>x.id===b.id))S.brawlers.push({id:b.id,owned:false,power:1,trophies:0});});
+function save(){localStorage.setItem('brawljs',JSON.stringify(S));}
+
+function getBrawler(id){return BRAWLERS.find(b=>b.id===id);}
+function getSave(id){return S.brawlers.find(b=>b.id===id);}
+function getTotalTrophies(){return S.brawlers.reduce((a,b)=>a+b.trophies,0);}
+function getPowerMult(power){return 1+(power-1)*0.1;}
+
+function upTopBar(){
+  const total=getTotalTrophies();
+  ['hTrophy','stTrophy'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='🏆 '+total;});
+  ['hGems','shopGems','profGems'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='💎 '+S.gems;});
+  ['hCoins','shopCoins'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='🪙 '+S.coins;});
+  ['hTickets','chestTickets'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='🎟 '+S.tickets;});
+  const stW=document.getElementById('stWins');if(stW)stW.textContent=S.wins;
+  const stB=document.getElementById('stBrawlers');if(stB)stB.textContent=S.brawlers.filter(b=>b.owned).length;
+  const pEmo=document.getElementById('profEmo');if(pEmo)pEmo.textContent=S.icon;
+  const pName=document.getElementById('profNameDisp');if(pName)pName.textContent=S.nick;
+}
+
+// ===== TABS =====
+function goTab(tab,btn){
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+  document.getElementById('gameScreen').style.display='none';
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const el=document.getElementById(tab+'Screen');
+  if(el){el.style.display='flex';}
+  if(tab==='home'){renderHome();}
+  if(tab==='chests'){renderChests();}
+  if(tab==='shop'){renderShop();}
+  if(tab==='profile'){renderProfile();}
+  if(tab==='friends'){renderFriends();}
+  upTopBar();
+}
+
+// ===== DAILY GIFTS =====
+function checkDaily(){
+  const today=new Date().toDateString();
+  if(S.dailyDate!==today){S.dailyDate=today;S.dailyClaimed=[];save();}
+}
+function renderDailyGifts(){
+  checkDaily();
+  const row=document.getElementById('dailyGiftRow');
+  row.innerHTML='<div class="sec">Щоденні подарунки</div><div class="gift-row" id="giftRowInner"></div>';
+  const inner=document.getElementById('giftRowInner');
+  DAILY_GIFTS.forEach((g,i)=>{
+    const claimed=S.dailyClaimed.includes(i);
+    const avail=!claimed&&(i===0||S.dailyClaimed.includes(i-1));
+    const d=document.createElement('div');
+    d.className='gift-item'+(claimed?' claimed':avail?' available':'');
+    d.innerHTML=`<div class="gift-emo">${g.emo}</div><div class="gift-lbl">${claimed?'✅':avail?'Взяти!':g.name}</div>`;
+    if(avail)d.onclick=()=>claimGift(i);
+    inner.appendChild(d);
+  });
+}
+function claimGift(i){
+  const g=DAILY_GIFTS[i];
+  applyReward(g);
+  S.dailyClaimed.push(i);
+  save();upTopBar();renderDailyGifts();
+  alert(g.emo+' '+g.name+' отримано!');
+}
+function applyReward(g){
+  if(g.type==='coins')S.coins+=g.val;
+  if(g.type==='gems')S.gems+=g.val;
+  if(g.type==='tickets')S.tickets+=g.val;
+  if(g.type==='chest')openChestById(g.val);
+  save();
+}
+
+// ===== HOME =====
+function renderHome(){
+  renderDailyGifts();
+  const mc=document.getElementById('modeCards');
+  mc.innerHTML='';
+  MODES.forEach(m=>{
+    const d=document.createElement('div');
+    d.className='mode-card'+(S.selMode===m.id?' sel':'');
+    if(S.selMode===m.id)d.style.borderColor='#a855f7';
+    d.innerHTML=`<div class="mode-emo">${m.emo}</div><div><div class="mode-name">${m.name}</div><div class="mode-desc">${m.desc}</div></div>`;
+    d.onclick=()=>{S.selMode=m.id;save();renderHome();};
+    mc.appendChild(d);
+  });
+  const grid=document.getElementById('homeGrid');
+  grid.innerHTML='';
+  S.brawlers.forEach(sb=>{
+    const b=getBrawler(sb.id);if(!b)return;
+    const d=document.createElement('div');
+    d.className='b-card'+(S.selBrawler===b.id?' sel':'')+(sb.owned?'':' locked');
+    d.innerHTML=`<div class="b-emo">${b.emo}</div><div class="b-name">${b.name}</div><div class="b-lvl">⚡${sb.power}</div><div class="b-tr">🏆${sb.trophies}</div>`;
+    if(sb.owned)d.onclick=()=>{S.selBrawler=b.id;save();renderHome();};
+    grid.appendChild(d);
+  });
+  const sel=getBrawler(S.selBrawler);
+  const selSv=getSave(S.selBrawler);
+  const si=document.getElementById('selInfo');
+  if(sel&&selSv){
+    si.style.display='block';
+    document.getElementById('selEmo').textContent=sel.emo;
+    document.getElementById('selName').textContent=sel.name;
+    document.getElementById('selDesc').textContent=sel.desc;
+    document.getElementById('selGadgetDesc').textContent='Q: '+sel.gadget+' — '+sel.gadgetDesc;
+    document.getElementById('selPow').textContent=selSv.power;
+    document.getElementById('selTrophy').textContent=selSv.trophies;
+  }
+}
+
+// ===== UPGRADE =====
+function openUpgrade(){
+  const b=getBrawler(S.selBrawler);
+  const sb=getSave(S.selBrawler);
+  if(!b||!sb)return;
+  const el=document.getElementById('upgradeContent');
+  const maxPow=10;
+  const pm=getPowerMult(sb.power);
+  let html=`<div style="text-align:center;margin-bottom:12px">
+    <div style="font-size:32px">${b.emo}</div>
+    <div style="color:#e2b8ff;font-weight:600;font-size:16px">${b.name}</div>
+    <div style="color:#a855f7;font-size:14px;margin-top:4px">Сила ${sb.power}/${maxPow}</div>
+    <div class="upg-bar" style="margin:8px 0"><div class="upg-fill" style="width:${(sb.power/maxPow)*100}%"></div></div>
+    <div style="color:#8878aa;font-size:12px">HP: ${Math.round(b.baseHp*pm)} | Урон: ${Math.round(b.baseDmg*pm)}</div>
+  </div>`;
+  if(sb.power<maxPow){
+    const cost=UPGRADE_COSTS[sb.power];
+    html+=`<div style="background:#1a0a2e;border-radius:8px;padding:10px;margin-bottom:10px;text-align:center">
+      <div style="color:#8878aa;font-size:12px">Наступний рівень (${sb.power+1})</div>
+      <div style="color:#e2b8ff;font-size:13px;margin:4px 0">HP: ${Math.round(b.baseHp*getPowerMult(sb.power+1))} | Урон: ${Math.round(b.baseDmg*getPowerMult(sb.power+1))}</div>
+      <div style="color:#f1c40f;font-size:14px;font-weight:600">🪙 ${cost}</div>
+    </div>
+    <button class="btn-purple" onclick="doUpgrade()" ${S.coins>=cost?'':'disabled'} style="${S.coins<cost?'opacity:.5':''}">
+      ${S.coins>=cost?'⬆ Прокачати за 🪙'+cost:'Не вистачає монет'}
+    </button>`;
+  } else {
+    html+='<div style="text-align:center;color:#f1c40f;font-size:16px;font-weight:600">✨ Максимальна сила!</div>';
+  }
+  el.innerHTML=html;
+  document.getElementById('upgradeModal').classList.add('open');
+}
+function doUpgrade(){
+  const sb=getSave(S.selBrawler);
+  if(!sb||sb.power>=10)return;
+  const cost=UPGRADE_COSTS[sb.power];
+  if(S.coins<cost){alert('Не вистачає монет!');return;}
+  S.coins-=cost;sb.power++;save();upTopBar();openUpgrade();
+  const b=getBrawler(S.selBrawler);
+  alert('🎉 '+b.name+' прокачано до рівня '+sb.power+'!');
+}
+
+// ===== CHESTS =====
+const CHESTS=[
+  {id:'rare',name:'Рідкісна скриня',emo:'📦',color:'#3498db',cost:100,items:3,brawlerChance:0,desc:'3 предмети'},
+  {id:'epic',name:'Епічна скриня',emo:'💜',color:'#8e44ad',cost:500,items:5,brawlerChance:0.5,desc:'5 предметів, шанс бравлера'},
+  {id:'legendary',name:'Легендарна скриня',emo:'⭐',color:'#f1c40f',cost:1500,items:8,brawlerChance:1,desc:'8 предметів + гарантований бравлер'},
+];
+const CHEST_REWARDS_POOL=[
+  {type:'coins',emo:'🪙',name:'+200 монет',val:200,w:40},
+  {type:'coins',emo:'🪙',name:'+500 монет',val:500,w:25},
+  {type:'coins',emo:'🪙',name:'+1000 монет',val:1000,w:10},
+  {type:'gems',emo:'💎',name:'+10 кристалів',val:10,w:20},
+  {type:'gems',emo:'💎',name:'+25 кристалів',val:25,w:8},
+  {type:'tickets',emo:'🎟',name:'+50 білетів',val:50,w:15},
+  {type:'tickets',emo:'🎟',name:'+150 білетів',val:150,w:5},
+];
+function weightedRandom(pool){
+  const total=pool.reduce((a,x)=>a+x.w,0);
+  let r=Math.random()*total;
+  for(const x of pool){r-=x.w;if(r<=0)return x;}
+  return pool[0];
+}
+function renderChests(){
+  const c=document.getElementById('chestCards');
+  c.innerHTML='';
+  CHESTS.forEach(ch=>{
+    const d=document.createElement('div');
+    d.className='chest-card';
+    const can=S.tickets>=ch.cost;
+    d.innerHTML=`<div class="chest-emo">${ch.emo}</div>
+      <div class="chest-name">${ch.name}</div>
+      <div class="chest-desc">${ch.desc}</div>
+      <div class="chest-cost" style="color:${can?'#a855f7':'#8878aa'}">🎟 ${ch.cost} ${can?'':'(не вистачає)'}</div>`;
+    if(can)d.onclick=()=>openChestModal(ch.id);
+    else d.style.opacity='.6';
+    c.appendChild(d);
+  });
+}
+function openChestModal(id){openChestById(id,true);}
+function openChestById(id,deduct=false){
+  const ch=CHESTS.find(c=>c.id===id);
+  if(!ch)return;
+  if(deduct){
+    if(S.tickets<ch.cost){alert('Не вистачає білетів!');return;}
+    S.tickets-=ch.cost;
+  }
+  const rewards=[];
+  for(let i=0;i<ch.items;i++) rewards.push(weightedRandom(CHEST_REWARDS_POOL));
+  const locked=BRAWLERS.filter(b=>!getSave(b.id).owned);
+  let gotBrawler=null;
+  if(ch.brawlerChance>=1||(locked.length>0&&Math.random()<ch.brawlerChance)){
+    if(locked.length>0){
+      gotBrawler=locked[Math.floor(Math.random()*locked.length)];
+      getSave(gotBrawler.id).owned=true;
+    }
+  }
+  rewards.forEach(r=>{
+    if(r.type==='coins')S.coins+=r.val;
+    if(r.type==='gems')S.gems+=r.val;
+    if(r.type==='tickets')S.tickets+=r.val;
+  });
+  save();upTopBar();
+  document.getElementById('chestModalTitle').textContent=ch.emo+' '+ch.name;
+  let html='<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px">';
+  rewards.forEach(r=>{html+=`<div style="background:#1a0a2e;border-radius:8px;padding:8px 12px;text-align:center"><div style="font-size:20px">${r.emo}</div><div style="font-size:11px;color:#8878aa">${r.name}</div></div>`;});
+  html+='</div>';
+  if(gotBrawler){
+    html+=`<div style="background:#2d0a5a;border-radius:12px;padding:12px;text-align:center;border:2px solid #a855f7">
+      <div style="font-size:36px">${gotBrawler.emo}</div>
+      <div style="color:#e2b8ff;font-weight:600;font-size:15px">🎉 Новий боєць!</div>
+      <div style="color:#a855f7;font-size:14px">${gotBrawler.name}</div>
+    </div>`;
+  }
+  document.getElementById('chestRewards').innerHTML=html;
+  document.getElementById('chestModal').classList.add('open');
+  renderChests();
+}
+
+// ===== SHOP =====
+function renderShop(){
+  const c=document.getElementById('shopContent');
+  c.innerHTML='';
+  const brawlersSection=document.createElement('div');
+  brawlersSection.innerHTML='<div class="sec">Бійці за монети</div>';
+  const locked=S.brawlers.filter(sb=>!sb.owned&&BRAWLERS.find(b=>b.id===sb.id)?.cost>0);
+  if(!locked.length)brawlersSection.innerHTML+='<div style="color:#8878aa;font-size:13px;padding:8px 0">Всі доступні бійці куплені!</div>';
+  locked.forEach(sb=>{
+    const b=getBrawler(sb.id);if(!b)return;
+    const can=S.coins>=b.cost;
+    const el=document.createElement('div');
+    el.className='shop-item';
+    el.innerHTML=`<div class="shop-emo">${b.emo}</div>
+      <div class="shop-info"><div class="shop-name">${b.name}</div><div class="shop-desc">${b.desc}</div></div>
+      <button class="btn-yellow" ${can?'':'disabled'} onclick="buyBrawler('${b.id}')">🪙${b.cost}</button>`;
+    brawlersSection.appendChild(el);
+  });
+  c.appendChild(brawlersSection);
+  const iconSection=document.createElement('div');
+  iconSection.innerHTML='<div class="sec">Іконки за кристали</div>';
+  ICONS.forEach((ico,i)=>{
+    const cost=ICON_COSTS[i]||0;
+    if(!cost)return;
+    const owned=S.ownedIcons.includes(i);
+    const can=S.gems>=cost;
+    const el=document.createElement('div');
+    el.className='shop-item';
+    el.innerHTML=`<div class="shop-emo">${ico}</div>
+      <div class="shop-info"><div class="shop-name">Іконка "${ico}"</div><div class="shop-desc">Для профілю</div></div>
+      ${owned?'<span style="color:#2ecc71;font-size:13px">✅ Є</span>':`<button class="btn-yellow" ${can?'':'disabled'} onclick="buyIcon(${i})">💎${cost}</button>`}`;
+    iconSection.appendChild(el);
+  });
+  c.appendChild(iconSection);
+  const packSection=document.createElement('div');
+  packSection.innerHTML='<div class="sec">Пакети монет</div>';
+  [{coins:500,gems:10},{coins:1500,gems:25},{coins:5000,gems:80}].forEach(pk=>{
+    const can=S.gems>=pk.gems;
+    const el=document.createElement('div');
+    el.className='shop-item';
+    el.innerHTML=`<div class="shop-emo">🪙</div>
+      <div class="shop-info"><div class="shop-name">+${pk.coins} монет</div><div class="shop-desc">За кристали</div></div>
+      <button class="btn-yellow" ${can?'':'disabled'} onclick="buyCoinPack(${pk.coins},${pk.gems})">💎${pk.gems}</button>`;
+    packSection.appendChild(el);
+  });
+  c.appendChild(packSection);
+}
+function buyBrawler(id){
+  const b=getBrawler(id);const sb=getSave(id);
+  if(!b||!sb||sb.owned||S.coins<b.cost)return;
+  S.coins-=b.cost;sb.owned=true;save();upTopBar();renderShop();
+  alert('🎉 '+b.name+' куплено!');
+}
+function buyIcon(i){
+  const cost=ICON_COSTS[i]||0;
+  if(S.gems<cost){alert('Не вистачає кристалів!');return;}
+  S.gems-=cost;S.ownedIcons.push(i);S.icon=ICONS[i];save();upTopBar();renderShop();
+  alert('✅ Іконка '+ICONS[i]+' куплена!');
+}
+function buyCoinPack(coins,gems){
+  if(S.gems<gems){alert('Не вистачає кристалів!');return;}
+  S.gems-=gems;S.coins+=coins;save();upTopBar();renderShop();
+}
+
+// ===== PROFILE =====
+function renderProfile(){
+  upTopBar();
+  const grid=document.getElementById('myGrid');
+  grid.innerHTML='';
+  S.brawlers.filter(sb=>sb.owned).forEach(sb=>{
+    const b=getBrawler(sb.id);if(!b)return;
+    const d=document.createElement('div');
+    d.className='b-card';
+    d.innerHTML=`<div class="b-emo">${b.emo}</div><div class="b-name">${b.name}</div><div class="b-lvl">⚡${sb.power}</div><div class="b-tr">🏆${sb.trophies}</div>`;
+    grid.appendChild(d);
+  });
+}
+function openIconModal(){
+  const grid=document.getElementById('iconGrid');
+  grid.innerHTML='';
+  ICONS.forEach((ico,i)=>{
+    const owned=S.ownedIcons.includes(i);
+    const isSel=S.icon===ico;
+    const d=document.createElement('div');
+    d.className='icon-item'+(owned?' owned':'')+(isSel?' sel':'');
+    d.innerHTML=`<div style="font-size:22px">${ico}</div>`;
+    if(owned)d.onclick=()=>{S.icon=ico;save();upTopBar();renderProfile();closeModal('iconModal');};
+    else{const cost=ICON_COSTS[i]||0;d.innerHTML+=`<div style="font-size:9px;color:#8878aa">${cost?'💎'+cost:'🔒'}</div>`;}
+    grid.appendChild(d);
+  });
+  document.getElementById('iconModal').classList.add('open');
+}
+function openNickModal(){document.getElementById('nickInput').value=S.nick;document.getElementById('nickModal').classList.add('open');}
+function changeNick(){
+  if(S.gems<10){alert('Не вистачає кристалів!');return;}
+  const v=document.getElementById('nickInput').value.trim();
+  if(!v){alert('Введи нікнейм!');return;}
+  S.gems-=10;S.nick=v;save();upTopBar();renderProfile();closeModal('nickModal');
+  alert('✅ Нікнейм змінено!');
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+// ===== FRIENDS =====
+const FRIENDS=[
+  {name:'Павлік',emo:'🐷',online:false,tr:180},{name:'Нікіта',emo:'👑',online:true,tr:520},
+  {name:'Денис',emo:'🌿',online:true,tr:310},{name:'Влад',emo:'🎮',online:false,tr:90},{name:'Скопюк',emo:'⚡',online:true,tr:440},
+];
+function renderFriends(){
+  const c=document.getElementById('friendsContent');
+  c.innerHTML='<div class="sec">Друзі</div>';
+  FRIENDS.forEach(f=>{
+    const el=document.createElement('div');
+    el.className='friend-item';
+    el.innerHTML=`<div class="f-emo">${f.emo}</div>
+      <div style="flex:1"><div class="f-name">${f.name}</div><div class="f-status ${f.online?'online':'offline'}">${f.online?'● Онлайн':'● Офлайн'} · 🏆${f.tr}</div></div>
+      <button style="background:#a855f7;color:#fff;border:none;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px" ${f.online?'':'disabled'} onclick="alert('Запрошення надіслано!')">Запросити</button>`;
+    c.appendChild(el);
+  });
+}
+
+// ===== TROPHY SYSTEM =====
+function getTrophyDelta(bTrophies,win){
+  if(bTrophies<1000) return win?10:-5;
+  if(bTrophies<2000) return win?8:-6;
+  return win?4:-8;
+}
+
+// ===== GAME =====
+let GS=null;
+function startGame(){
+  const b=getBrawler(S.selBrawler)||BRAWLERS[0];
+  const sb=getSave(S.selBrawler);
+  const mode=MODES.find(m=>m.id===S.selMode)||MODES[0];
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+  const gs=document.getElementById('gameScreen');
+  gs.style.display='flex';
+  const cv=document.getElementById('gameCanvas');
+  const W=cv.offsetWidth||window.innerWidth;
+  const H=cv.offsetHeight||300;
+  cv.width=W;cv.height=H;
+  const ctx=cv.getContext('2d');
+  const isMobile=('ontouchstart' in window);
+  document.getElementById('joystickZone').style.display=isMobile?'block':'none';
+  document.getElementById('shootZone').style.display=isMobile?'flex':'none';
+  document.getElementById('gadgetMobile').style.display=isMobile?'flex':'none';
+  const pm=getPowerMult(sb.power);
+  const pHp=Math.round(b.baseHp*pm);
+  const pDmg=Math.round(b.baseDmg*pm);
+  document.getElementById('pLabel').textContent=b.emo+' '+b.name;
+  document.getElementById('gadgetName').textContent=b.gadget;
+  let gadgetUses=b.gadgetUses;
+  let gadgetActive=false;
+  function updGadget(){
+    document.getElementById('gadgetCount').textContent=gadgetUses+'/'+b.gadgetUses;
+    const btn=document.getElementById('gadgetBtn');
+    btn.className='gad-btn'+(gadgetUses>0?' ready':' used');
+    document.getElementById('gadgetMobile').style.opacity=gadgetUses>0?'1':'.4';
+  }
+  updGadget();
+  let ammo=b.maxAmmo,reloadProg=0;
+  const ammoRow=document.getElementById('ammoRow');
+  ammoRow.innerHTML='';
+  for(let i=0;i<b.maxAmmo;i++){const d=document.createElement('div');d.className='ap';ammoRow.appendChild(d);}
+  function updAmmo(){
+    const pips=ammoRow.children;
+    for(let i=0;i<pips.length;i++)pips[i].className='ap'+(i<ammo?' full':'');
+    document.getElementById('reloadInfo').textContent=ammo<b.maxAmmo?'Перезарядка '+(Math.round(reloadProg/b.reload*100))+'%':'';
+  }
+  // Entities
+  function mkBot(brawlerDef,x,y,team){
+    const pm2=getPowerMult(1);
+    return{x,y,hp:Math.round(brawlerDef.baseHp*pm2),maxHp:Math.round(brawlerDef.baseHp*pm2),r:16,speed:brawlerDef.speed,b:brawlerDef,
+      dmg:Math.round(brawlerDef.baseDmg*pm2),color:brawlerDef.color,face:0,shotT:0,moveT:0,tx:x,ty:y,team,isBot:true,dead:false};
+  }
+  const blueTeam=[],redTeam=[];
+  const P={x:W*0.15,y:H/2,hp:pHp,maxHp:pHp,r:16,speed:b.speed,b,dmg:pDmg,color:b.color,face:0,team:'blue',isPlayer:true,dead:false};
+  blueTeam.push(P);
+  const ownedBrawlers=S.brawlers.filter(s=>s.owned).map(s=>getBrawler(s.id)).filter(Boolean);
+  function randBrawler(){return ownedBrawlers[Math.floor(Math.random()*ownedBrawlers.length)]||BRAWLERS[0];}
+  if(mode.team){
+    for(let i=0;i<2;i++) blueTeam.push(mkBot(randBrawler(),W*0.15,(i+1)*H/3,'blue'));
+    for(let i=0;i<3;i++) redTeam.push(mkBot(randBrawler(),W*0.85,(i+0.5)*H/4,'red'));
+    document.getElementById('eLabel').textContent='Команда 🟥';
+    document.getElementById('teamScore').style.display='flex';
+    document.getElementById('modeLabel').textContent='3 на 3';
+  } else if(mode.ffa){
+    for(let i=0;i<7;i++) redTeam.push(mkBot(randBrawler(),W*(0.3+Math.random()*0.6),H*(0.1+Math.random()*0.8),'red'));
+    document.getElementById('eLabel').textContent='Боти';
+    document.getElementById('teamScore').style.display='none';
+  } else {
+    const eb=randBrawler();
+    redTeam.push(mkBot(eb,W*0.85,H/2,'red'));
+    document.getElementById('eLabel').textContent=eb.emo+' '+eb.name;
+    document.getElementById('teamScore').style.display='none';
+  }
+  let blueKills=0,redKills=0;
+  const allEnts=()=>[...blueTeam,...redTeam];
+  const WALLS=[
+    {x:W/2-15,y:H/2-60,w:30,h:120},{x:W*.25-25,y:H*.2,w:50,h:18},{x:W*.25-25,y:H*.75,w:50,h:18},
+    {x:W*.75-25,y:H*.2,w:50,h:18},{x:W*.75-25,y:H*.75,w:50,h:18},
+  ];
+  function wallBlock(x,y,r){for(const w of WALLS)if(x+r>w.x&&x-r<w.x+w.w&&y+r>w.y&&y-r<w.y+w.h)return true;return false;}
+  function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
+  function dist(a,c){return Math.hypot(a.x-c.x,a.y-c.y);}
+  function moveEnt(e,dx,dy,sp){
+    const speed=sp||e.speed*(gadgetActive&&e===P?2.5:1);
+    const nx=clamp(e.x+dx*speed,e.r,W-e.r);
+    const ny=clamp(e.y+dy*speed,e.r,H-e.r);
+    if(!wallBlock(nx,e.y,e.r))e.x=nx;
+    if(!wallBlock(e.x,ny,e.r))e.y=ny;
+  }
+  let bullets=[];let effects=[];
+  function shoot(from,angle,br,dmg,owner){
+    for(let i=0;i<br.shots;i++){
+      const a=angle+(i-(br.shots-1)/2)*br.spread+(Math.random()-.5)*.03;
+      bullets.push({x:from.x,y:from.y,angle:a,speed:br.bspeed,r:5,dmg,owner,range:br.range,dist:0,team:from.team,color:from.team==='blue'?'#f1c40f':'#ff4444'});
+    }
+  }
+  function spawnFx(x,y,txt,col){effects.push({x,y,txt,col,life:55});}
+  const keysDown={};
+  function onKey(e,v){keysDown[e.key.toLowerCase()]=v;keysDown[e.code]=v;if(v&&e.key.toLowerCase()==='q')useGadget();}
+  document.addEventListener('keydown',e=>onKey(e,true));
+  document.addEventListener('keyup',e=>onKey(e,false));
+  // Joystick
+  let jActive=false,jStartX=0,jStartY=0,jDX=0,jDY=0;
+  const jZone=document.getElementById('joystickZone');
+  const jBase=document.getElementById('jBase');
+  const jKnob=document.getElementById('jKnob');
+  jZone.addEventListener('touchstart',e=>{
+    e.preventDefault();
+    const t=e.touches[0];
+    const rect=jZone.getBoundingClientRect();
+    jStartX=t.clientX-rect.left;jStartY=t.clientY-rect.top;
+    jBase.style.display='block';jBase.style.left=(jStartX-40)+'px';jBase.style.top=(jStartY-40)+'px';
+    jKnob.style.left='40px';jKnob.style.top='40px';
+    jActive=true;jDX=0;jDY=0;
+  },{passive:false});
+  jZone.addEventListener('touchmove',e=>{
+    e.preventDefault();
+    if(!jActive)return;
+    const t=e.touches[0];
+    const rect=jZone.getBoundingClientRect();
+    const dx=t.clientX-rect.left-jStartX;
+    const dy=t.clientY-rect.top-jStartY;
+    const len=Math.hypot(dx,dy)||1;
+    const maxR=35;
+    const cx=Math.min(len,maxR)*dx/len;
+    const cy=Math.min(len,maxR)*dy/len;
+    jKnob.style.left=(40+cx)+'px';jKnob.style.top=(40+cy)+'px';
+    jDX=dx/len;jDY=dy/len;
+  },{passive:false});
+  jZone.addEventListener('touchend',()=>{jActive=false;jDX=0;jDY=0;jBase.style.display='none';});
+  // Shoot button
+  const shootBtn=document.getElementById('shootBtn');
+  let shootInterval=null;
+  shootBtn.addEventListener('touchstart',e=>{
+    e.preventDefault();
+    doShoot();
+    shootInterval=setInterval(doShoot,400);
+  },{passive:false});
+  shootBtn.addEventListener('touchend',()=>{if(shootInterval)clearInterval(shootInterval);});
+  function doShoot(){
+    if(P.dead||ammo<=0)return;
+    shoot(P,P.face,b,pDmg,'player');
+    ammo=Math.max(0,ammo-1);reloadProg=0;updAmmo();
+  }
+  let lastClick=0;
+  cv.addEventListener('click',e=>{
+    if(P.dead||ammo<=0)return;
+    const now=Date.now();if(now-lastClick<180)return;lastClick=now;
+    const rect=cv.getBoundingClientRect();
+    const mx=(e.clientX-rect.left)*(W/rect.width);
+    const my=(e.clientY-rect.top)*(H/rect.height);
+    P.face=Math.atan2(my-P.y,mx-P.x);
+    doShoot();
+  });
+  window.useGadget=function(){
+    if(gadgetUses<=0||P.dead)return;
+    gadgetUses--;updGadget();
+    const id=b.id;
+    if(id==='shelly'||id==='bull'||id==='crow'||id==='leon'){
+      gadgetActive=true;spawnFx(P.x,P.y-22,'💨 Ривок!','#f1c40f');
+      setTimeout(()=>{gadgetActive=false;},350);
+    }else if(['colt','nita','poco'].includes(id)){
+      const h=id==='poco'?3000:id==='nita'?2000:1500;
+      P.hp=Math.min(P.maxHp,P.hp+h);spawnFx(P.x,P.y-22,'+'+h+' HP','#2ecc71');
+    }else if(id==='brock'){
+      for(let i=0;i<3;i++){
+        const a=Math.atan2(redTeam[0]?.y-P.y||0,redTeam[0]?.x-P.x||1)+(i-1)*.2;
+        bullets.push({x:P.x,y:P.y,angle:a,speed:11,r:8,dmg:pDmg*1.5,owner:'player',range:700,dist:0,team:'blue',color:'#ff6600'});
+      }
+      spawnFx(P.x,P.y-22,'🚀 Дощ!','#f39c12');
+    }else if(id==='piper'){
+      const a=Math.atan2(P.y-(redTeam[0]?.y||H/2),P.x-(redTeam[0]?.x||W));
+      moveEnt(P,Math.cos(a),Math.sin(a),P.speed*8);
+      shoot(P,Math.atan2((redTeam[0]?.y||H/2)-P.y,(redTeam[0]?.x||W)-P.x),b,pDmg*1.5,'player');
+      spawnFx(P.x,P.y-22,'☂️ Стрибок!','#fd79a8');
+    }else if(id==='jessie'){
+      spawnFx(P.x,P.y-22,'⚡ Турель!','#2ecc71');
+      let ts=6;const tiv=setInterval(()=>{
+        if(ts--<=0||P.dead){clearInterval(tiv);return;}
+        const en=redTeam.find(e=>!e.dead);
+        if(!en)return;
+        bullets.push({x:P.x,y:P.y,angle:Math.atan2(en.y-P.y,en.x-P.x)+(Math.random()-.5)*.3,speed:9,r:5,dmg:500,owner:'player',range:500,dist:0,team:'blue',color:'#2ecc71'});
+      },200);
+    }else if(id==='sandy'){
+      P._invisible=true;spawnFx(P.x,P.y-22,'🌪️ Невидимість!','#f4a261');
+      setTimeout(()=>{P._invisible=false;},3000);
+    }else if(id==='spike'){
+      for(let i=0;i<5;i++){
+        const a=(i/5)*Math.PI*2;
+        bullets.push({x:P.x,y:P.y,angle:a,speed:6,r:7,dmg:pDmg,owner:'player',range:200,dist:0,team:'blue',color:'#55efc4'});
+      }
+      spawnFx(P.x,P.y-22,'🌵 Кактуси!','#55efc4');
+    }
+  };
+  let over=false,animId=null;
+  function checkOver(){
+    const allBlue=blueTeam.filter(e=>!e.dead);
+    const allRed=redTeam.filter(e=>!e.dead);
+    if(mode.team){
+      if(!allBlue.find(e=>e.isPlayer)&&allBlue.length===0)return'lose';
+      if(allRed.length===0)return'win';
+    }else if(mode.ffa){
+      const alive=allEnts().filter(e=>!e.dead);
+      if(alive.length<=1&&(P.dead||alive[0]===P))return P.dead?'lose':'win';
+    }else{
+      if(P.dead)return'lose';
+      if(allRed.every(e=>e.dead))return'win';
+    }
+    return null;
+  }
+  function endGame(win){
+    over=true;if(animId)cancelAnimationFrame(animId);
+    const sb2=getSave(S.selBrawler);
+    const delta=getTrophyDelta(sb2.trophies,win);
+    sb2.trophies=Math.max(0,sb2.trophies+delta);
+    if(win){S.wins++;S.coins+=80;S.tickets+=20;}
+    // Random win gift
+    let giftTxt='';
+    if(win){
+      const gi=Math.floor(Math.random()*WIN_GIFTS.length);
+      const g=WIN_GIFTS[gi];
+      applyReward(g);
+      giftTxt=`<div style="background:#2d0a5a;border-radius:8px;padding:8px;margin-top:6px">${g.emo} Подарунок за перемогу: ${g.name}</div>`;
+    }
+    save();upTopBar();
+    document.getElementById('resTitle').textContent=win?'🏆 Перемога!':'💀 Поразка';
+    document.getElementById('resSub').textContent=(win?'+':'')+delta+' 🏆 · '+(win?'+80 🪙':'-');
+    document.getElementById('resRewards').innerHTML=(win?'<div>+80 🪙 +20 🎟</div>':'')+giftTxt;
+    document.getElementById('resultOverlay').classList.add('show');
+  }
+  function gameLoop(){
+    if(!over){
+      // Player move
+      let dx=0,dy=0;
+      if(keysDown['a']||keysDown['arrowleft'])dx-=1;
+      if(keysDown['d']||keysDown['arrowright'])dx+=1;
+      if(keysDown['w']||keysDown['arrowup'])dy-=1;
+      if(keysDown['s']||keysDown['arrowdown'])dy+=1;
+      if(jActive&&(Math.abs(jDX)>0.1||Math.abs(jDY)>0.1)){dx=jDX;dy=jDY;}
+      if(!P.dead&&(dx||dy)){const l=Math.hypot(dx,dy)||1;moveEnt(P,dx/l,dy/l);}
+      if(!P.dead&&(dx||dy)&&!jActive)P.face=Math.atan2(dy,dx);
+      // Ammo regen
+      reloadProg++;
+      if(ammo<b.maxAmmo&&reloadProg>=b.reload){ammo=Math.min(b.maxAmmo,ammo+1);reloadProg=0;}
+      updAmmo();
+      // Bots AI
+      allEnts().filter(e=>e.isBot&&!e.dead).forEach(bot=>{
+        bot.moveT++;
+        const enemies=allEnts().filter(e=>!e.dead&&e.team!==bot.team);
+        const target=enemies.reduce((a,c)=>(!a||dist(bot,c)<dist(bot,a)?c:a),null);
+        if(!target)return;
+        if(bot.moveT>45){bot.moveT=0;const d2=dist(bot,target);
+          if(d2>bot.b.range*.6){bot.tx=target.x+(Math.random()-.5)*60;bot.ty=target.y+(Math.random()-.5)*60;}
+          else{bot.tx=bot.x+(Math.random()-.5)*100;bot.ty=bot.y+(Math.random()-.5)*100;}
+          bot.tx=clamp(bot.tx,20,W-20);bot.ty=clamp(bot.ty,20,H-20);}
+        const bdx=bot.tx-bot.x,bdy=bot.ty-bot.y,bl=Math.hypot(bdx,bdy)||1;
+        if(bl>4){bot.face=Math.atan2(bdy,bdx);moveEnt(bot,bdx/bl,bdy/bl);}
+        bot.shotT++;
+        if(bot.shotT>bot.b.reload*1.5){bot.shotT=0;
+          bot.face=Math.atan2(target.y-bot.y,target.x-bot.x);
+          shoot(bot,bot.face,bot.b,bot.dmg,'bot');}
+      });
+      // Bullets
+      for(let i=bullets.length-1;i>=0;i--){
+        const bl=bullets[i];
+        bl.x+=Math.cos(bl.angle)*bl.speed;bl.y+=Math.sin(bl.angle)*bl.speed;bl.dist+=bl.speed;
+        let rm=false;
+        if(bl.dist>bl.range||bl.x<0||bl.x>W||bl.y<0||bl.y>H)rm=true;
+        if(!rm)for(const w of WALLS)if(bl.x>w.x&&bl.x<w.x+w.w&&bl.y>w.y&&bl.y<w.y+w.h){rm=true;break;}
+        if(!rm){
+          const targets=allEnts().filter(e=>!e.dead&&e.team!==bl.team);
+          for(const t of targets){
+            if(dist(bl,t)<t.r+bl.r){
+              t.hp=Math.max(0,t.hp-bl.dmg);spawnFx(t.x,t.y-20,'-'+Math.round(bl.dmg/100)*100,t.team==='red'?'#ff4444':'#4488ff');
+              if(t.hp<=0&&!t.dead){t.dead=true;if(t.team==='red')blueKills++;else redKills++;
+                document.getElementById('blueScore').textContent=blueKills;
+                document.getElementById('redScore').textContent=redKills;}
+              rm=true;break;}}
+        }
+        if(rm)bullets.splice(i,1);
+      }
+      effects=effects.filter(e=>e.life>0);effects.forEach(e=>{e.y-=.6;e.life--;});
+      // HP bars
+      if(!P.dead){document.getElementById('pHp').style.width=Math.round((P.hp/P.maxHp)*100)+'%';}
+      const mainEnemy=redTeam.find(e=>!e.dead);
+      if(mainEnemy)document.getElementById('eHp').style.width=Math.round((mainEnemy.hp/mainEnemy.maxHp)*100)+'%';
+      const res=checkOver();if(res)endGame(res==='win');
+    }
+    // Draw
+    ctx.fillStyle='#1e8c45';ctx.fillRect(0,0,W,H);
+    for(let i=0;i<60;i++){ctx.fillStyle='rgba(0,90,0,.15)';ctx.fillRect((i*113)%W,(i*79+20)%H,10,5);}
+    for(const w of WALLS){ctx.fillStyle='#5a4a3a';ctx.fillRect(w.x,w.y,w.w,w.h);ctx.fillStyle='#7a6a5a';ctx.fillRect(w.x,w.y,w.w,5);}
+    allEnts().filter(e=>!e.dead).forEach(e=>{
+      if(e._invisible&&e!==P)return;
+      ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.face);
+      ctx.globalAlpha=e._invisible?.3:1;
+      ctx.beginPath();ctx.arc(0,0,e.r,0,Math.PI*2);
+      ctx.fillStyle=e.color+'55';ctx.fill();
+      ctx.strokeStyle=e===P&&gadgetActive?'#f1c40f':e.team==='blue'?'#3498db':'#e74c3c';
+      ctx.lineWidth=e===P&&gadgetActive?4:2.5;ctx.stroke();
+      ctx.fillStyle='rgba(0,0,0,.35)';ctx.fillRect(e.r*.3,-3,e.r*.8,6);
+      ctx.fillStyle='#fff';ctx.fillRect(e.r*.35,-2,e.r*.65,4);
+      ctx.restore();ctx.globalAlpha=e._invisible?.3:1;
+      ctx.font=`${e.r}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(e.b.emo,e.x,e.y+1);
+      const bw=e.r*2.2;
+      ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(e.x-e.r*1.1,e.y-e.r-11,bw,5);
+      ctx.fillStyle=e.team==='blue'?'#3498db':'#e74c3c';
+      ctx.fillRect(e.x-e.r*1.1,e.y-e.r-11,bw*(e.hp/e.maxHp),5);
+      ctx.globalAlpha=1;
+    });
+    for(const bl of bullets){
+      ctx.beginPath();ctx.arc(bl.x,bl.y,bl.r,0,Math.PI*2);ctx.fillStyle=bl.color;ctx.fill();
+    }
+    effects.forEach(ef=>{
+      ctx.globalAlpha=ef.life/55;ctx.fillStyle=ef.col;
+      ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(ef.txt,ef.x,ef.y);ctx.globalAlpha=1;
+    });
+    animId=requestAnimationFrame(gameLoop);
+  }
+  GS={cleanup(){
+    if(animId)cancelAnimationFrame(animId);
+    document.removeEventListener('keydown',e=>onKey(e,true));
+    document.removeEventListener('keyup',e=>onKey(e,false));
+    window.useGadget=()=>{};
+  }};
+  gameLoop();
+}
+
+function exitGame(){
+  if(GS)GS.cleanup();
+  document.getElementById('resultOverlay').classList.remove('show');
+  document.getElementById('gameScreen').style.display='none';
+  document.getElementById('teamScore').style.display='none';
+  goTab('home',document.querySelector('.nb'));
+}
+
+// ===== INIT =====
+renderHome();upTopBar();
+
+// Close modals on bg click
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
+});
+</script>
+</body>
+</html>
