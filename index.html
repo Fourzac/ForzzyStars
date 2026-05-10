@@ -105,14 +105,15 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0520;color:#e2b8f
 #gameCanvas{display:block;flex:1;width:100%;touch-action:none}
 .gbot{background:#0d0520;padding:5px 10px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-top:1px solid #1a0a3e}
 .ginfo{color:#8878aa;font-size:10px}
-.joystick-zone{position:absolute;left:0;bottom:0;width:45%;height:45%;z-index:50;touch-action:none}
-/* Aim zone — right side for aim, tap to confirm shot */
-.aim-zone{position:absolute;right:0;bottom:0;width:45%;height:45%;z-index:50;touch-action:none;display:flex;align-items:center;justify-content:center}
+.joystick-base{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(100,80,180,.25);border:2px solid rgba(168,85,247,.5);display:none}
+.joystick-knob{position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(168,85,247,.7);transform:translate(-50%,-50%)}
+/* Aim zone — full right half of screen for independent aim/shoot */
+.aim-zone{position:absolute;right:0;bottom:0;width:50%;height:100%;z-index:50;touch-action:none}
 .aim-base{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(241,196,15,.15);border:2px solid rgba(241,196,15,.4);display:none}
 .aim-knob{position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(241,196,15,.6);transform:translate(-50%,-50%)}
-.shoot-btn{width:70px;height:70px;border-radius:50%;background:rgba(241,196,15,.3);border:3px solid rgba(241,196,15,.6);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;user-select:none}
-.gadget-mobile-btn{position:absolute;right:48%;bottom:48%;width:50px;height:50px;border-radius:50%;background:rgba(168,85,247,.4);border:3px solid #a855f7;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:51;cursor:pointer}
-.super-mobile-btn{position:absolute;right:48%;bottom:calc(48% + 58px);width:50px;height:50px;border-radius:50%;background:rgba(231,76,60,.3);border:3px solid #e74c3c;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:51;cursor:pointer;opacity:.4}
+.shoot-btn{width:70px;height:70px;border-radius:50%;background:rgba(241,196,15,.3);border:3px solid rgba(241,196,15,.6);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;user-select:none;position:absolute;right:20px;bottom:80px}
+.gadget-mobile-btn{position:absolute;right:calc(50% + 10px);bottom:90px;width:54px;height:54px;border-radius:50%;background:rgba(168,85,247,.4);border:3px solid #a855f7;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:52;cursor:pointer}
+.super-mobile-btn{position:absolute;right:calc(50% + 10px);bottom:155px;width:54px;height:54px;border-radius:50%;background:rgba(231,76,60,.3);border:3px solid #e74c3c;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:52;cursor:pointer;opacity:.4}
 .super-mobile-btn.ready{opacity:1;background:rgba(231,76,60,.6)}
 .result-overlay{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:60;align-items:center;justify-content:center;flex-direction:column}
 .result-overlay.show{display:flex}
@@ -302,7 +303,7 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
   </div>
   <canvas id="gameCanvas" style="flex:1;width:100%;display:block;touch-action:none"></canvas>
   <div class="gbot">
-    <span class="ginfo">WASD / джойстик — рух | Прицільний джойстик — стріл</span>
+    <span class="ginfo">WASD/стрілки — рух | Миша — ціль | ЛКМ/Пробіл — стріл | Q — гаджет | R/E — супер</span>
     <span id="reloadInfo" style="color:#a855f7;font-size:10px"></span>
   </div>
   <!-- Mobile controls -->
@@ -311,21 +312,26 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
       <div class="joystick-knob" id="jKnob"></div>
     </div>
   </div>
-  <!-- Aim zone — drag to aim, release to shoot -->
+  <!-- Aim zone — drag anywhere on right half to aim, release to shoot -->
   <div class="aim-zone" id="aimZone">
     <div class="aim-base" id="aBase">
       <div class="aim-knob" id="aKnob"></div>
     </div>
-    <div class="shoot-btn" id="shootBtn" style="opacity:.5;font-size:13px;border-color:rgba(241,196,15,.3)">🎯<br><span style="font-size:9px">Прицілитись</span></div>
+    <div class="shoot-btn" id="shootBtn">🎯</div>
   </div>
-  <div class="gadget-mobile-btn" id="gadgetMobile" onclick="useGadget()">Q</div>
+  <div class="gadget-mobile-btn" id="gadgetMobile" onclick="useGadget()">🔧</div>
   <div class="super-mobile-btn" id="superMobile" onclick="useSuper()">⚡</div>
   <div class="result-overlay" id="resultOverlay">
-    <div class="result-box">
+    <div class="result-box" style="max-width:340px;max-height:90vh;overflow-y:auto">
       <div class="result-title" id="resTitle">Перемога!</div>
       <div class="result-sub" id="resSub">+3 🏆</div>
-      <div id="resRewards" style="margin-bottom:16px;font-size:13px;color:#a855f7"></div>
-      <button class="btn-purple" onclick="exitGame()">В меню</button>
+      <div id="resRewards" style="margin-bottom:12px;font-size:13px;color:#a855f7"></div>
+      <!-- Post-round scoreboard -->
+      <div id="resScoreboard" style="margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-purple" onclick="restartGame()" style="flex:1;background:#2ecc71">🔄 Грати ще раз</button>
+        <button class="btn-purple" onclick="exitGame()" style="flex:1;background:#555">🏠 В меню</button>
+      </div>
     </div>
   </div>
 </div>
@@ -430,6 +436,7 @@ const MODES=[
   {id:'duel',name:'Дуель',emo:'⚔️',desc:'1 на 1 з ботом. Класичний режим.',bots:1,team:false},
   {id:'brawl3',name:'3 на 3',emo:'🤝',desc:'Команда 3 проти 3. Знищіть ворогів!',bots:5,team:true},
   {id:'clash',name:'Зіткнення',emo:'💥',desc:'Всі проти всіх! Виживи останнім.',bots:7,team:false,ffa:true},
+  {id:'bounty',name:'Полювач за головами',emo:'💀',desc:'Перша команда з 10 вбивствами перемагає! При смерті — воскресаєш через 3 сек.',bots:5,team:true,bounty:true},
 ];
 
 // Only 1 daily gift per day
@@ -451,9 +458,17 @@ const WIN_GIFTS=[
   {emo:'⭐',name:'Скриня рідкісна',type:'chest',val:'rare'},
 ];
 
-const UPGRADE_COSTS=[0,200,400,800,1500,2500,4000,6000,9000,13000];
+const TROPHY_MILESTONE_REWARDS=[
+  {emo:'🪙',name:'+150 монет',type:'coins',val:150},
+  {emo:'🎟',name:'+25 білетів',type:'tickets',val:25},
+  {emo:'💎',name:'+5 кристалів',type:'gems',val:5},
+  {emo:'🪙',name:'+200 монет',type:'coins',val:200},
+  {emo:'🎟',name:'+40 білетів',type:'tickets',val:40},
+  {emo:'💎',name:'+8 кристалів',type:'gems',val:8},
+  {emo:'🌟',name:'+300 монет',type:'coins',val:300},
+];
 
-// ===== SAVE STATE =====
+const UPGRADE_COSTS=[0,200,400,800,1500,2500,4000,6000,9000,13000];
 function defState(){return{
   coins:1500,gems:120,tickets:50,wins:0,
   nick:'Гравець',icon:'🌊',
@@ -461,6 +476,7 @@ function defState(){return{
   brawlers:BRAWLERS.map((b,i)=>({id:b.id,owned:i<3,power:1,trophies:0})),
   dailyClaimed:false,dailyDate:'',
   selBrawler:'shelly',selMode:'duel',
+  lastTrophyMilestone:0,
 }}
 let S=JSON.parse(localStorage.getItem('brawljs2')||'null')||defState();
 BRAWLERS.forEach(b=>{if(!S.brawlers.find(x=>x.id===b.id))S.brawlers.push({id:b.id,owned:false,power:1,trophies:0});});
@@ -938,10 +954,16 @@ function mpStartGame(p2brawler){
 
 // ===== GAME =====
 let GS=null;
+let _lastP2Override=null;
+function restartGame(){
+  document.getElementById('resultOverlay').classList.remove('show');
+  startGame(_lastP2Override);
+}
 function startGame(p2BrawlerOverride){
   const b=getBrawler(S.selBrawler)||BRAWLERS[0];
   const sb=getSave(S.selBrawler);
   const mode=MODES.find(m=>m.id===S.selMode)||MODES[0];
+  _lastP2Override=p2BrawlerOverride;
   document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
   const gs=document.getElementById('gameScreen');
   gs.style.display='flex';
@@ -1001,22 +1023,22 @@ function startGame(p2BrawlerOverride){
 
   // Entities
   function mkBot(brawlerDef,x,y,team){
-    const pm2=getPowerMult(1);
+    const pm2=getPowerMult(1+(Math.floor(Math.random()*3)));
     return{x,y,hp:Math.round(brawlerDef.baseHp*pm2),maxHp:Math.round(brawlerDef.baseHp*pm2),r:16,speed:brawlerDef.speed,b:brawlerDef,
       dmg:Math.round(brawlerDef.baseDmg*pm2),color:brawlerDef.color,face:0,shotT:0,moveT:0,tx:x,ty:y,team,isBot:true,dead:false,
-      superCharge:0,frozenUntil:0};
+      superCharge:0,frozenUntil:0,respawnAt:0};
   }
   const blueTeam=[],redTeam=[];
   const P={x:W*0.15,y:H/2,hp:pHp,maxHp:pHp,r:16,speed:b.speed,b,dmg:pDmg,color:b.color,face:0,team:'blue',isPlayer:true,dead:false};
   blueTeam.push(P);
   const ownedBrawlers=S.brawlers.filter(s=>s.owned).map(s=>getBrawler(s.id)).filter(Boolean);
   function randBrawler(){return ownedBrawlers[Math.floor(Math.random()*ownedBrawlers.length)]||BRAWLERS[0];}
-  if(mode.team){
+  if(mode.team||mode.bounty){
     for(let i=0;i<2;i++) blueTeam.push(mkBot(randBrawler(),W*0.15,(i+1)*H/3,'blue'));
     for(let i=0;i<3;i++) redTeam.push(mkBot(randBrawler(),W*0.85,(i+0.5)*H/4,'red'));
     document.getElementById('eLabel').textContent='Команда 🟥';
     document.getElementById('teamScore').style.display='flex';
-    document.getElementById('modeLabel').textContent='3 на 3';
+    document.getElementById('modeLabel').textContent=mode.bounty?'💀 Полювач (10 вбивств)':'3 на 3';
   } else if(mode.ffa){
     // FFA: all bots in a neutral 'ffa' pool. Use different colors per bot
     const ffaColors=['#e74c3c','#f39c12','#2ecc71','#9b59b6','#e67e22','#1abc9c','#e91e63'];
@@ -1035,6 +1057,8 @@ function startGame(p2BrawlerOverride){
     document.getElementById('teamScore').style.display='none';
   }
   let blueKills=0,redKills=0;
+  // per-player stats for scoreboard
+  const pStats={damage:0,kills:0,revives:0};
   const allEnts=()=>[...blueTeam,...redTeam];
   const WALLS=[
     {x:W/2-15,y:H/2-60,w:30,h:120},{x:W*.25-25,y:H*.2,w:50,h:18},{x:W*.25-25,y:H*.75,w:50,h:18},
@@ -1066,8 +1090,9 @@ function startGame(p2BrawlerOverride){
   const keysDown={};
   function onKey(e,v){
     keysDown[e.key.toLowerCase()]=v;keysDown[e.code]=v;
-    if(v&&e.key.toLowerCase()==='q')useGadget();
-    if(v&&e.key.toLowerCase()==='r')useSuper();
+    if(v&&e.key.toLowerCase()==='q')window.useGadget();
+    if(v&&(e.key.toLowerCase()==='r'||e.key.toLowerCase()==='e'))window.useSuper();
+    if(v&&e.key===' '){e.preventDefault();doShoot();}
   }
   document.addEventListener('keydown',e=>onKey(e,true));
   document.addEventListener('keyup',e=>onKey(e,false));
@@ -1096,14 +1121,14 @@ function startGame(p2BrawlerOverride){
   },{passive:false});
   jZone.addEventListener('touchend',()=>{jActive=false;jDX=0;jDY=0;jBase.style.display='none';});
 
-  // Aim joystick (right side) — drag to aim, release to shoot
+  // Aim joystick (right half) — drag to aim, release to shoot; FULLY INDEPENDENT from movement direction
   let aActive=false,aStartX=0,aStartY=0,aDX=0,aDY=0;
   const aZone=document.getElementById('aimZone');
   const aBase=document.getElementById('aBase');
   const aKnob=document.getElementById('aKnob');
   aZone.addEventListener('touchstart',e=>{
     e.preventDefault();
-    const t=e.touches[0];const rect=aZone.getBoundingClientRect();
+    const t=e.changedTouches[0];const rect=aZone.getBoundingClientRect();
     aStartX=t.clientX-rect.left;aStartY=t.clientY-rect.top;
     aBase.style.display='block';aBase.style.left=(aStartX-40)+'px';aBase.style.top=(aStartY-40)+'px';
     aKnob.style.left='40px';aKnob.style.top='40px';
@@ -1111,21 +1136,19 @@ function startGame(p2BrawlerOverride){
   },{passive:false});
   aZone.addEventListener('touchmove',e=>{
     e.preventDefault();if(!aActive)return;
-    const t=e.touches[0];const rect=aZone.getBoundingClientRect();
+    const t=e.changedTouches[0];const rect=aZone.getBoundingClientRect();
     const dx=t.clientX-rect.left-aStartX;const dy=t.clientY-rect.top-aStartY;
     const len=Math.hypot(dx,dy)||1;const maxR=35;
     const cx=Math.min(len,maxR)*dx/len;const cy=Math.min(len,maxR)*dy/len;
     aKnob.style.left=(40+cx)+'px';aKnob.style.top=(40+cy)+'px';
     aDX=dx/len;aDY=dy/len;
+    // Always update face from aim joystick — independent of movement direction
     if(len>8) P.face=Math.atan2(aDY,aDX);
   },{passive:false});
   aZone.addEventListener('touchend',e=>{
     e.preventDefault();
-    if(aActive&&(Math.abs(aDX)>0.15||Math.abs(aDY)>0.15)){
-      // Shoot in aimed direction
-      doShoot();
-    } else {
-      // Tap without drag = shoot forward
+    if(aActive){
+      // Always shoot on release (tap or drag)
       doShoot();
     }
     aActive=false;aDX=0;aDY=0;aBase.style.display='none';
@@ -1306,6 +1329,11 @@ function startGame(p2BrawlerOverride){
   function checkOver(){
     const allBlue=blueTeam.filter(e=>!e.dead);
     const allRed=redTeam.filter(e=>!e.dead);
+    if(mode.bounty){
+      if(blueKills>=10)return'win';
+      if(redKills>=10)return'lose';
+      return null;
+    }
     if(mode.team){
       if(allBlue.length===0)return'lose';
       if(allRed.length===0)return'win';
@@ -1332,10 +1360,44 @@ function startGame(p2BrawlerOverride){
       applyReward(g);
       giftTxt=`<div style="background:#2d0a5a;border-radius:8px;padding:8px;margin-top:6px">${g.emo} Подарунок за перемогу: ${g.name}</div>`;
     }
+    // Trophy milestone rewards (every 100 trophies)
+    let milestoneTxt='';
+    const totalTr=getTotalTrophies();
+    if(!S.lastTrophyMilestone)S.lastTrophyMilestone=0;
+    const newMilestone=Math.floor(totalTr/100)*100;
+    if(newMilestone>S.lastTrophyMilestone&&totalTr>=100){
+      const mg=TROPHY_MILESTONE_REWARDS[Math.floor(Math.random()*TROPHY_MILESTONE_REWARDS.length)];
+      applyReward(mg);
+      S.lastTrophyMilestone=newMilestone;
+      milestoneTxt=`<div style="background:#1a3a0a;border-radius:8px;padding:8px;margin-top:6px;border:1px solid #2ecc71">🌟 ${newMilestone} трофеїв! Нагорода: ${mg.emo} ${mg.name}</div>`;
+    }
     save();upTopBar();
     document.getElementById('resTitle').textContent=win?'🏆 Перемога!':'💀 Поразка';
     document.getElementById('resSub').textContent=(win?'+':'')+delta+' 🏆 · '+(win?'+80 🪙':'-');
-    document.getElementById('resRewards').innerHTML=(win?'<div>+80 🪙 +20 🎟</div>':'')+giftTxt;
+    document.getElementById('resRewards').innerHTML=(win?'<div>+80 🪙 +20 🎟</div>':'')+giftTxt+milestoneTxt;
+    // Build scoreboard
+    const botCount=blueTeam.length+redTeam.length-1;
+    const botKillsEst=Math.floor(blueKills*0.4);
+    let scoreHtml=`<div style="background:#12071f;border-radius:10px;padding:8px;font-size:12px">
+      <div style="color:#a855f7;font-weight:600;margin-bottom:6px;text-align:center">📊 Підсумки раунду</div>
+      <div style="display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:4px;align-items:center">
+        <div style="color:#8878aa;font-size:10px">Гравець</div>
+        <div style="color:#8878aa;font-size:10px;text-align:center">💥 Урон</div>
+        <div style="color:#8878aa;font-size:10px;text-align:center">☠️ Вбивства</div>
+        <div style="color:#8878aa;font-size:10px;text-align:center">💚 Воскр.</div>
+        <div style="display:flex;align-items:center;gap:4px">${S.icon}<span style="color:#e2b8ff">${S.nick}</span></div>
+        <div style="color:#f1c40f;text-align:center">${Math.round(pStats.damage/100)*100}</div>
+        <div style="color:#e74c3c;text-align:center">${pStats.kills}</div>
+        <div style="color:#2ecc71;text-align:center">${pStats.revives}</div>`;
+    blueTeam.filter(e=>e.isBot).forEach((bot,i)=>{
+      const bKills=Math.floor(Math.random()*3);
+      scoreHtml+=`<div style="display:flex;align-items:center;gap:4px">${bot.b.emo}<span style="color:#3498db">${bot.b.name}</span></div>
+        <div style="color:#f1c40f;text-align:center">${Math.round(Math.random()*pStats.damage*0.6/100)*100||Math.round(Math.random()*2000/100)*100}</div>
+        <div style="color:#e74c3c;text-align:center">${bKills}</div>
+        <div style="color:#2ecc71;text-align:center">0</div>`;
+    });
+    scoreHtml+=`</div></div>`;
+    document.getElementById('resScoreboard').innerHTML=scoreHtml;
     document.getElementById('resultOverlay').classList.add('show');
   }
 
@@ -1360,7 +1422,7 @@ function startGame(p2BrawlerOverride){
         if(!wallBlock(nx,P.y,P.r,phantom))P.x=nx;
         if(!wallBlock(P.x,ny,P.r,phantom))P.y=ny;
       }
-      if(!P.dead&&(dx||dy)&&!jActive)P.face=Math.atan2(dy,dx);
+      if(!P.dead&&(dx||dy)&&jActive)P.face=Math.atan2(dy,dx);
 
       // Ammo regen
       reloadProg++;
@@ -1422,6 +1484,8 @@ function startGame(p2BrawlerOverride){
               if(t===P&&P._shieldActive){dmg=Math.round(dmg*0.5);}
               if(t===P&&P._shield>0){const ab=Math.min(dmg,P._shield);P._shield-=ab;dmg-=ab;}
               t.hp=Math.max(0,t.hp-dmg);
+              // Track player damage
+              if(bl.owner==='player')pStats.damage+=dmg;
               // Frost slow
               if(bl.frozen){t.frozenUntil=Date.now()+1000;}
               spawnFx(t.x,t.y-20,'-'+Math.round(dmg/100)*100,bl.team==='blue'?'#ff4444':'#4488ff');
@@ -1431,12 +1495,17 @@ function startGame(p2BrawlerOverride){
               }
               if(t.hp<=0&&!t.dead){
                 t.dead=true;
-                if(mode.ffa){
+                if(mode.bounty){
+                  // In bounty mode, entities respawn after 3s
+                  t.respawnAt=Date.now()+3000;
+                  if(bl.team==='blue'){blueKills++;document.getElementById('blueScore').textContent=blueKills;if(bl.owner==='player')pStats.kills++;}
+                  else{redKills++;document.getElementById('redScore').textContent=redKills;}
+                } else if(mode.ffa){
                   if(t===P){}
-                  else if(bl.team==='blue'){blueKills++;document.getElementById('blueScore').textContent=blueKills;}
+                  else if(bl.team==='blue'){blueKills++;document.getElementById('blueScore').textContent=blueKills;if(bl.owner==='player')pStats.kills++;}
                   else{redKills++;document.getElementById('redScore').textContent=redKills;}
                 } else {
-                  if(t.team==='red'){blueKills++;document.getElementById('blueScore').textContent=blueKills;}
+                  if(t.team==='red'){blueKills++;document.getElementById('blueScore').textContent=blueKills;if(bl.owner==='player')pStats.kills++;}
                   else{redKills++;document.getElementById('redScore').textContent=redKills;}
                 }
               }
@@ -1448,7 +1517,31 @@ function startGame(p2BrawlerOverride){
         if(rm)bullets.splice(i,1);
       }
       effects=effects.filter(e=>e.life>0);effects.forEach(e=>{e.y-=.6;e.life--;});
+
+      // Bounty mode: respawn dead entities after 3 seconds
+      if(mode.bounty){
+        const nowB=Date.now();
+        allEnts().filter(e=>e.dead&&e.respawnAt&&nowB>=e.respawnAt).forEach(e=>{
+          e.dead=false;e.respawnAt=0;
+          e.hp=e.maxHp;
+          if(e===P){
+            P.x=W*0.15;P.y=H/2;pStats.revives++;
+          } else if(e.team==='blue'){
+            e.x=W*0.15;e.y=H*0.3+Math.random()*H*0.4;
+          } else {
+            e.x=W*0.85;e.y=H*0.3+Math.random()*H*0.4;
+          }
+          spawnFx(e.x,e.y-22,'💚 Воскрес!','#2ecc71');
+        });
+        // Player in bounty: schedule respawn if just died
+        if(P.dead&&!P.respawnAt){P.respawnAt=Date.now()+3000;}
+      }
       if(!P.dead){document.getElementById('pHp').style.width=Math.round((P.hp/P.maxHp)*100)+'%';}
+      // Bounty: show respawn countdown for player
+      if(mode.bounty&&P.dead&&P.respawnAt){
+        const remaining=Math.max(0,(P.respawnAt-Date.now())/1000).toFixed(1);
+        document.getElementById('reloadInfo').textContent='💀 Воскресаєш через '+remaining+'с';
+      }
       const mainEnemy=redTeam.find(e=>!e.dead);
       if(mainEnemy)document.getElementById('eHp').style.width=Math.round((mainEnemy.hp/mainEnemy.maxHp)*100)+'%';
       const res=checkOver();if(res)endGame(res==='win');
@@ -1501,6 +1594,30 @@ function startGame(p2BrawlerOverride){
       ctx.fillStyle='rgba(241,196,15,0.7)';ctx.beginPath();
       const tx=P.x+Math.cos(P.face)*120,ty=P.y+Math.sin(P.face)*120;
       ctx.arc(tx,ty,5,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    }
+
+    // Draw respawn countdown for bounty mode
+    if(mode.bounty&&P.dead&&P.respawnAt){
+      const rem=Math.max(0,(P.respawnAt-Date.now())/1000);
+      ctx.save();
+      ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(W/2-70,H/2-30,140,60);
+      ctx.fillStyle='#e74c3c';ctx.font='bold 14px sans-serif';ctx.textAlign='center';
+      ctx.fillText('💀 Воскресаєш через',W/2,H/2-8);
+      ctx.fillStyle='#f1c40f';ctx.font='bold 28px sans-serif';
+      ctx.fillText(rem.toFixed(1)+'с',W/2,H/2+22);
+      ctx.restore();
+    }
+    // Bounty: draw kill targets
+    if(mode.bounty){
+      ctx.save();
+      ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(W/2-50,4,100,20);
+      ctx.font='bold 12px sans-serif';ctx.textAlign='center';
+      ctx.fillStyle=blueKills>=10?'#2ecc71':'#3498db';
+      ctx.fillText('🟦 '+blueKills,W/2-25,18);
+      ctx.fillStyle='#8878aa';ctx.fillText('/ 10',W/2,18);
+      ctx.fillStyle=redKills>=10?'#2ecc71':'#e74c3c';
+      ctx.fillText(redKills+' 🟥',W/2+25,18);
       ctx.restore();
     }
 
