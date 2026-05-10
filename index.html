@@ -110,12 +110,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0520;color:#e2b8f
 .joystick-knob{position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(168,85,247,.7);transform:translate(-50%,-50%)}
 /* Aim zone — full right half of screen for independent aim/shoot */
 .aim-zone{position:absolute;right:0;bottom:0;width:50%;height:100%;z-index:50;touch-action:none}
-.aim-base{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(241,196,15,.15);border:2px solid rgba(241,196,15,.4);display:none}
-.aim-knob{position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(241,196,15,.6);transform:translate(-50%,-50%)}
-.shoot-btn{width:70px;height:70px;border-radius:50%;background:rgba(241,196,15,.3);border:3px solid rgba(241,196,15,.6);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;user-select:none;position:absolute;right:20px;bottom:80px}
-.gadget-mobile-btn{position:absolute;right:calc(50% + 10px);bottom:90px;width:54px;height:54px;border-radius:50%;background:rgba(168,85,247,.4);border:3px solid #a855f7;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:52;cursor:pointer}
-.super-mobile-btn{position:absolute;right:calc(50% + 10px);bottom:155px;width:54px;height:54px;border-radius:50%;background:rgba(231,76,60,.3);border:3px solid #e74c3c;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:52;cursor:pointer;opacity:.4}
-.super-mobile-btn.ready{opacity:1;background:rgba(231,76,60,.6)}
+.aim-base{display:none}.aim-knob{display:none}
 .result-overlay{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:60;align-items:center;justify-content:center;flex-direction:column}
 .result-overlay.show{display:flex}
 .result-box{background:#1a0a2e;border-radius:20px;padding:28px;text-align:center;border:2px solid #2a1a4e;width:90%;max-width:300px}
@@ -313,15 +308,13 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
       <div class="joystick-knob" id="jKnob"></div>
     </div>
   </div>
-  <!-- Aim zone — drag anywhere on right half to aim, release to shoot -->
-  <div class="aim-zone" id="aimZone">
-    <div class="aim-base" id="aBase">
-      <div class="aim-knob" id="aKnob"></div>
-    </div>
-    <div class="shoot-btn" id="shootBtn">🎯</div>
+  <!-- Auto-aim shoot button (right side) -->
+  <div id="aimZone" style="display:none"></div>
+  <div id="shootZone" style="position:absolute;right:12px;bottom:100px;z-index:52;display:none;flex-direction:column;align-items:center;gap:10px">
+    <div id="gadgetMobile" onclick="useGadget()" style="width:54px;height:54px;border-radius:50%;background:rgba(168,85,247,.4);border:3px solid #a855f7;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer">🔧</div>
+    <div id="superMobile" onclick="useSuper()" style="width:54px;height:54px;border-radius:50%;background:rgba(231,76,60,.3);border:3px solid #e74c3c;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;opacity:.4">⚡</div>
+    <div id="autoShootBtn" style="width:80px;height:80px;border-radius:50%;background:rgba(241,196,15,.35);border:4px solid rgba(241,196,15,.8);display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;user-select:none;touch-action:none">🎯</div>
   </div>
-  <div class="gadget-mobile-btn" id="gadgetMobile" onclick="useGadget()">🔧</div>
-  <div class="super-mobile-btn" id="superMobile" onclick="useSuper()">⚡</div>
   <div class="result-overlay" id="resultOverlay">
     <div class="result-box" style="max-width:340px;max-height:90vh;overflow-y:auto">
       <div class="result-title" id="resTitle">Перемога!</div>
@@ -975,9 +968,8 @@ function startGame(p2BrawlerOverride){
   const ctx=cv.getContext('2d');
   const isMobile=('ontouchstart' in window);
   document.getElementById('joystickZone').style.display=isMobile?'block':'none';
-  document.getElementById('aimZone').style.display=isMobile?'flex':'none';
-  document.getElementById('gadgetMobile').style.display=isMobile?'flex':'none';
-  document.getElementById('superMobile').style.display=isMobile?'flex':'none';
+  document.getElementById('aimZone').style.display='none';
+  document.getElementById('shootZone').style.display=isMobile?'flex':'none';
   const pm=getPowerMult(sb.power);
   const pHp=Math.round(b.baseHp*pm);
   const pDmg=Math.round(b.baseDmg*pm);
@@ -1008,7 +1000,7 @@ function startGame(p2BrawlerOverride){
     const btn=document.getElementById('superBtnHud');
     btn.className='super-btn-hud'+(superReady?' ready':'');
     const mob=document.getElementById('superMobile');
-    mob.className='super-mobile-btn'+(superReady?' ready':'');
+    if(mob){mob.style.opacity=superReady?'1':'.4';mob.style.background=superReady?'rgba(231,76,60,.6)':'rgba(231,76,60,.3)';}
   }
   updGadget();updSuper();
 
@@ -1122,38 +1114,22 @@ function startGame(p2BrawlerOverride){
   },{passive:false});
   jZone.addEventListener('touchend',()=>{jActive=false;jDX=0;jDY=0;jBase.style.display='none';});
 
-  // Aim joystick (right half) — drag to aim, release to shoot; FULLY INDEPENDENT from movement direction
-  let aActive=false,aStartX=0,aStartY=0,aDX=0,aDY=0;
-  const aZone=document.getElementById('aimZone');
-  const aBase=document.getElementById('aBase');
-  const aKnob=document.getElementById('aKnob');
-  aZone.addEventListener('touchstart',e=>{
-    e.preventDefault();
-    const t=e.changedTouches[0];const rect=aZone.getBoundingClientRect();
-    aStartX=t.clientX-rect.left;aStartY=t.clientY-rect.top;
-    aBase.style.display='block';aBase.style.left=(aStartX-40)+'px';aBase.style.top=(aStartY-40)+'px';
-    aKnob.style.left='40px';aKnob.style.top='40px';
-    aActive=true;aDX=0;aDY=0;
-  },{passive:false});
-  aZone.addEventListener('touchmove',e=>{
-    e.preventDefault();if(!aActive)return;
-    const t=e.changedTouches[0];const rect=aZone.getBoundingClientRect();
-    const dx=t.clientX-rect.left-aStartX;const dy=t.clientY-rect.top-aStartY;
-    const len=Math.hypot(dx,dy)||1;const maxR=35;
-    const cx=Math.min(len,maxR)*dx/len;const cy=Math.min(len,maxR)*dy/len;
-    aKnob.style.left=(40+cx)+'px';aKnob.style.top=(40+cy)+'px';
-    aDX=dx/len;aDY=dy/len;
-    // Always update face from aim joystick — independent of movement direction
-    if(len>8) P.face=Math.atan2(aDY,aDX);
-  },{passive:false});
-  aZone.addEventListener('touchend',e=>{
-    e.preventDefault();
-    if(aActive){
-      // Always shoot on release (tap or drag)
+  // Auto-aim shoot button — aims at nearest enemy and shoots
+  let aActive=false,aDX=0,aDY=0; // keep vars for canvas draw compat
+  if(isMobile){
+    const autoBtn=document.getElementById('autoShootBtn');
+    autoBtn.addEventListener('touchstart',e=>{
+      e.preventDefault();
+      if(P.dead||ammo<=0)return;
+      // Find nearest enemy
+      const enemies=allEnts().filter(t=>!t.dead&&t.team!==P.team);
+      if(enemies.length>0){
+        const nearest=enemies.reduce((a,c)=>dist(P,c)<dist(P,a)?c:a);
+        P.face=Math.atan2(nearest.y-P.y,nearest.x-P.x);
+      }
       doShoot();
-    }
-    aActive=false;aDX=0;aDY=0;aBase.style.display='none';
-  },{passive:false});
+    },{passive:false});
+  }
 
   // PC click to shoot
   let lastClick=0;
@@ -1584,18 +1560,17 @@ function startGame(p2BrawlerOverride){
       ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(ef.txt,ef.x,ef.y);ctx.globalAlpha=1;
     });
 
-    // Draw aim indicator on mobile
-    if(aActive&&isMobile){
-      ctx.save();
-      ctx.strokeStyle='rgba(241,196,15,0.4)';ctx.lineWidth=2;ctx.setLineDash([5,5]);
-      ctx.beginPath();ctx.moveTo(P.x,P.y);
-      ctx.lineTo(P.x+Math.cos(P.face)*120,P.y+Math.sin(P.face)*120);
-      ctx.stroke();ctx.setLineDash([]);
-      // Arrow tip
-      ctx.fillStyle='rgba(241,196,15,0.7)';ctx.beginPath();
-      const tx=P.x+Math.cos(P.face)*120,ty=P.y+Math.sin(P.face)*120;
-      ctx.arc(tx,ty,5,0,Math.PI*2);ctx.fill();
-      ctx.restore();
+    // Draw auto-aim indicator on mobile: line to nearest enemy
+    if(isMobile&&!P.dead){
+      const enemies=allEnts().filter(t=>!t.dead&&t.team!==P.team);
+      if(enemies.length>0){
+        const nearest=enemies.reduce((a,c)=>dist(P,c)<dist(P,a)?c:a);
+        ctx.save();
+        ctx.strokeStyle='rgba(241,196,15,0.3)';ctx.lineWidth=1.5;ctx.setLineDash([4,6]);
+        ctx.beginPath();ctx.moveTo(P.x,P.y);ctx.lineTo(nearest.x,nearest.y);
+        ctx.stroke();ctx.setLineDash([]);
+        ctx.restore();
+      }
     }
 
     // Draw respawn countdown for bounty mode
