@@ -10,7 +10,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0520;color:#e2b8f
 #app{width:100%;height:100dvh;position:relative;overflow:hidden;display:flex;flex-direction:column}
 .screen{display:none;flex-direction:column;height:100%;width:100%;position:absolute;top:0;left:0}
 .screen.active{display:flex}
-/* TOP BAR */
 .topbar{background:#12071f;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:1px solid #2a1a4e;gap:6px}
 .tb-title{color:#e2b8ff;font-size:15px;font-weight:600}
 .pills{display:flex;gap:5px;flex-wrap:wrap}
@@ -19,22 +18,17 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0520;color:#e2b8f
 .p-gems{background:#2ecc71;color:#0d3d1a}
 .p-coins{background:#f1c40f;color:#5a4000}
 .p-tickets{background:#a855f7;color:#2d0a5a}
-/* NAV */
 .nav{display:flex;background:#12071f;border-top:1px solid #2a1a4e;flex-shrink:0}
 .nb{flex:1;padding:8px 2px;border:none;background:transparent;color:#8878aa;cursor:pointer;font-size:10px;text-align:center;transition:color .15s}
 .nb.active,.nb:hover{color:#e2b8ff}
 .nb-icon{font-size:20px;display:block;margin-bottom:1px}
-/* CONTENT */
 .content{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch}
-/* BUTTONS */
 .btn-purple{background:#a855f7;color:#fff;border:none;border-radius:10px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;width:100%}
 .btn-purple:active{transform:scale(.97)}
 .btn-yellow{background:#f1c40f;color:#5a4000;border:none;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer;font-size:13px}
 .btn-yellow:disabled{background:#3a2a5e;color:#8878aa;cursor:default}
 .btn-back{background:#3a2a5e;color:#c4a8e8;border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px}
-/* CARDS */
 .card{background:#2a1a4e;border-radius:12px;padding:12px;margin-bottom:10px}
-/* BRAWLER GRID */
 .b-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 .b-card{background:#2a1a4e;border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s;position:relative}
 .b-card.sel{border-color:#a855f7}
@@ -45,10 +39,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0520;color:#e2b8f
 .b-name{font-size:10px;color:#c4a8e8;font-weight:600}
 .b-lvl{font-size:10px;color:#a855f7;margin-top:1px}
 .b-tr{font-size:9px;color:#e67e22}
-/* SEC TITLES */
 .sec{color:#e2b8ff;font-size:13px;font-weight:600;margin:12px 0 7px;text-transform:uppercase;letter-spacing:.5px}
 .sec:first-child{margin-top:0}
-/* PROFILE */
 .prof-head{background:#2a1a4e;border-radius:14px;padding:16px;text-align:center;margin-bottom:10px}
 .prof-emo{width:70px;height:70px;border-radius:50%;background:#a855f7;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 8px;cursor:pointer;border:3px solid #c084fc}
 .prof-name{color:#e2b8ff;font-size:18px;font-weight:600}
@@ -57,48 +49,40 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0520;color:#e2b8f
 .stat-card{background:#2a1a4e;border-radius:10px;padding:10px;text-align:center}
 .stat-val{color:#e2b8ff;font-size:20px;font-weight:600}
 .stat-lbl{color:#8878aa;font-size:10px;margin-top:2px}
-/* SHOP */
 .shop-item{background:#2a1a4e;border-radius:12px;padding:11px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
 .shop-emo{font-size:28px;width:44px;text-align:center;flex-shrink:0}
 .shop-info{flex:1;min-width:0}
 .shop-name{color:#e2b8ff;font-weight:600;font-size:14px}
 .shop-desc{color:#8878aa;font-size:11px;margin-top:1px}
-/* FRIENDS */
 .friend-item{background:#2a1a4e;border-radius:10px;padding:10px 12px;margin-bottom:7px;display:flex;align-items:center;gap:10px}
 .f-emo{width:38px;height:38px;border-radius:50%;background:#3a2a5e;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .f-name{color:#e2b8ff;font-size:14px;font-weight:600}
 .f-status{font-size:11px}
 .online{color:#2ecc71}.offline{color:#8878aa}
-/* CHEST */
 .chest-card{background:#2a1a4e;border-radius:14px;padding:16px;margin-bottom:10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s}
 .chest-card:hover{border-color:#a855f7}
 .chest-emo{font-size:48px;margin-bottom:6px}
 .chest-name{color:#e2b8ff;font-size:16px;font-weight:600}
 .chest-desc{color:#8878aa;font-size:12px;margin-top:4px}
 .chest-cost{color:#a855f7;font-size:14px;font-weight:600;margin-top:8px}
-/* MODES */
 .mode-card{background:#2a1a4e;border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;border:2px solid transparent;transition:border-color .2s;display:flex;align-items:center;gap:12px}
 .mode-card:hover{border-color:#a855f7}
 .mode-emo{font-size:32px;flex-shrink:0}
 .mode-name{color:#e2b8ff;font-size:15px;font-weight:600}
 .mode-desc{color:#8878aa;font-size:12px;margin-top:2px}
-/* UPGRADE */
 .upg-bar{height:6px;background:#3a2a5e;border-radius:3px;margin-top:4px;overflow:hidden}
 .upg-fill{height:100%;border-radius:3px;background:#a855f7;transition:width .3s}
-/* DAILY GIFT */
 .gift-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
 .gift-item{background:#2a1a4e;border-radius:10px;padding:8px 10px;text-align:center;flex-shrink:0;min-width:70px;cursor:pointer;border:2px solid transparent;transition:all .15s}
 .gift-item.claimed{border-color:#2ecc71;opacity:.6}
 .gift-item.available{border-color:#f1c40f}
 .gift-emo{font-size:22px}
 .gift-lbl{font-size:10px;color:#8878aa;margin-top:3px}
-/* MODAL */
 .modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:100;align-items:center;justify-content:center;padding:20px}
 .modal-bg.open{display:flex}
 .modal{background:#1a0a2e;border-radius:16px;padding:20px;width:100%;max-width:360px;border:1px solid #2a1a4e;max-height:80vh;overflow-y:auto}
 .modal-title{color:#e2b8ff;font-size:18px;font-weight:600;margin-bottom:12px;text-align:center}
 .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:#8878aa;font-size:20px;cursor:pointer}
-/* GAME HUD */
 #gameScreen{background:#0d0520}
 .ghud{background:#0d0520;padding:7px 10px;display:flex;align-items:center;gap:8px;flex-shrink:0;border-bottom:1px solid #1a0a3e}
 .hpw{flex:1}
@@ -108,36 +92,46 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0520;color:#e2b8f
 .ammo-pips{display:flex;gap:3px;align-items:center}
 .ap{width:12px;height:12px;border-radius:50%;background:#2a1a4e;border:1.5px solid #3a2a5e;transition:background .1s}
 .ap.full{background:#a855f7;border-color:#c084fc}
+/* Super bar */
+.super-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:1px}
+.super-bar{height:5px;width:52px;background:#2a1a4e;border-radius:3px;overflow:hidden;border:1px solid #3a2a5e}
+.super-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#f39c12,#e74c3c);transition:width .2s}
+.super-lbl{font-size:8px;color:#f39c12}
 .gad-btn{background:#2a1a4e;border:2px solid #3a2a5e;border-radius:8px;padding:4px 7px;color:#c4a8e8;font-size:10px;cursor:pointer;text-align:center;line-height:1.3;white-space:nowrap}
 .gad-btn.ready{border-color:#f1c40f;color:#f1c40f}
 .gad-btn.used{opacity:.35;cursor:default}
+.super-btn-hud{background:#2a1a4e;border:2px solid #3a2a5e;border-radius:8px;padding:4px 7px;color:#c4a8e8;font-size:10px;cursor:pointer;text-align:center;line-height:1.3;white-space:nowrap;margin-left:4px}
+.super-btn-hud.ready{border-color:#e74c3c;color:#e74c3c;background:#3d0a0a}
 #gameCanvas{display:block;flex:1;width:100%;touch-action:none}
 .gbot{background:#0d0520;padding:5px 10px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-top:1px solid #1a0a3e}
 .ginfo{color:#8878aa;font-size:10px}
-/* JOYSTICK */
 .joystick-zone{position:absolute;left:0;bottom:0;width:45%;height:45%;z-index:50;touch-action:none}
-.shoot-zone{position:absolute;right:0;bottom:0;width:45%;height:45%;z-index:50;touch-action:none;display:flex;align-items:center;justify-content:center}
-.joystick-base{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(168,85,247,.2);border:2px solid rgba(168,85,247,.4);display:none}
-.joystick-knob{position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(168,85,247,.7);transform:translate(-50%,-50%)}
+/* Aim zone — right side for aim, tap to confirm shot */
+.aim-zone{position:absolute;right:0;bottom:0;width:45%;height:45%;z-index:50;touch-action:none;display:flex;align-items:center;justify-content:center}
+.aim-base{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(241,196,15,.15);border:2px solid rgba(241,196,15,.4);display:none}
+.aim-knob{position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(241,196,15,.6);transform:translate(-50%,-50%)}
 .shoot-btn{width:70px;height:70px;border-radius:50%;background:rgba(241,196,15,.3);border:3px solid rgba(241,196,15,.6);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;user-select:none}
-.gadget-mobile-btn{position:absolute;right:12%;bottom:48%;width:50px;height:50px;border-radius:50%;background:rgba(168,85,247,.4);border:3px solid #a855f7;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:51;cursor:pointer}
-/* RESULT */
+.gadget-mobile-btn{position:absolute;right:48%;bottom:48%;width:50px;height:50px;border-radius:50%;background:rgba(168,85,247,.4);border:3px solid #a855f7;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:51;cursor:pointer}
+.super-mobile-btn{position:absolute;right:48%;bottom:calc(48% + 58px);width:50px;height:50px;border-radius:50%;background:rgba(231,76,60,.3);border:3px solid #e74c3c;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:51;cursor:pointer;opacity:.4}
+.super-mobile-btn.ready{opacity:1;background:rgba(231,76,60,.6)}
 .result-overlay{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:60;align-items:center;justify-content:center;flex-direction:column}
 .result-overlay.show{display:flex}
 .result-box{background:#1a0a2e;border-radius:20px;padding:28px;text-align:center;border:2px solid #2a1a4e;width:90%;max-width:300px}
 .result-title{font-size:28px;font-weight:700;margin-bottom:8px}
 .result-sub{color:#8878aa;font-size:14px;margin-bottom:20px}
-/* TEAM SCORE */
 .team-score{display:flex;justify-content:space-between;align-items:center;background:#12071f;padding:5px 10px;flex-shrink:0}
 .ts-team{font-size:12px;font-weight:600}
 .ts-score{font-size:18px;font-weight:700}
-/* ICONS for profile */
 .icon-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 .icon-item{background:#2a1a4e;border-radius:8px;padding:8px;text-align:center;cursor:pointer;border:2px solid transparent}
 .icon-item.owned{border-color:#2ecc71}
 .icon-item.sel{border-color:#a855f7}
 input[type=text]{background:#2a1a4e;border:1px solid #3a2a5e;border-radius:8px;padding:8px 12px;color:#e2b8ff;font-size:14px;width:100%;margin-bottom:10px}
 input[type=text]:focus{outline:none;border-color:#a855f7}
+/* Multiplayer lobby */
+.mp-code{background:#2a1a4e;border-radius:10px;padding:16px;text-align:center;margin-bottom:10px}
+.mp-code-val{font-size:32px;font-weight:700;color:#f1c40f;letter-spacing:6px;margin:8px 0}
+.mp-player{background:#2a1a4e;border-radius:8px;padding:10px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
 </style>
 </head>
 <body>
@@ -167,6 +161,7 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
           <div style="color:#e2b8ff;font-weight:600;font-size:15px" id="selName"></div>
           <div style="color:#8878aa;font-size:11px" id="selDesc"></div>
           <div style="color:#a855f7;font-size:11px;margin-top:2px" id="selGadgetDesc"></div>
+          <div style="color:#e74c3c;font-size:11px;margin-top:2px" id="selSuperDesc"></div>
         </div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
@@ -176,6 +171,7 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
       <div style="color:#8878aa;font-size:11px">🏆 Трофеїв: <span id="selTrophy" style="color:#e67e22"></span></div>
     </div>
     <button class="btn-purple" onclick="startGame()" style="margin-top:10px">⚔️ Грати!</button>
+    <button class="btn-purple" onclick="openMultiplayer()" style="margin-top:6px;background:#1a6a1a">🌐 Мультиплеєр (онлайн)</button>
   </div>
   <div class="nav">
     <button class="nb active" onclick="goTab('home',this)"><span class="nb-icon">⚔️</span>Грати</button>
@@ -286,9 +282,13 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
       <div class="ammo-pips" id="ammoRow"></div>
       <div style="font-size:9px;color:#8878aa">патрони</div>
     </div>
-    <div>
+    <div style="display:flex;flex-direction:column;gap:2px;align-items:center">
       <div class="gad-btn ready" id="gadgetBtn" onclick="useGadget()">Q<br><span id="gadgetName" style="font-size:9px">Гаджет</span></div>
       <div style="font-size:9px;color:#8878aa;text-align:center" id="gadgetCount"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;align-items:center">
+      <div class="super-btn-hud" id="superBtnHud" onclick="useSuper()">R<br><span style="font-size:9px" id="superName">Супер</span></div>
+      <div class="super-bar"><div class="super-fill" id="superFill" style="width:0%"></div></div>
     </div>
     <div class="hpw" style="text-align:right">
       <div class="hpl" style="text-align:right" id="eLabel">Бот</div>
@@ -302,7 +302,7 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
   </div>
   <canvas id="gameCanvas" style="flex:1;width:100%;display:block;touch-action:none"></canvas>
   <div class="gbot">
-    <span class="ginfo">WASD / джойстик — рух | Клік/кнопка — стріл</span>
+    <span class="ginfo">WASD / джойстик — рух | Прицільний джойстик — стріл</span>
     <span id="reloadInfo" style="color:#a855f7;font-size:10px"></span>
   </div>
   <!-- Mobile controls -->
@@ -311,10 +311,15 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
       <div class="joystick-knob" id="jKnob"></div>
     </div>
   </div>
-  <div class="shoot-zone" id="shootZone">
-    <div class="shoot-btn" id="shootBtn">🔥</div>
+  <!-- Aim zone — drag to aim, release to shoot -->
+  <div class="aim-zone" id="aimZone">
+    <div class="aim-base" id="aBase">
+      <div class="aim-knob" id="aKnob"></div>
+    </div>
+    <div class="shoot-btn" id="shootBtn" style="opacity:.5;font-size:13px;border-color:rgba(241,196,15,.3)">🎯<br><span style="font-size:9px">Прицілитись</span></div>
   </div>
   <div class="gadget-mobile-btn" id="gadgetMobile" onclick="useGadget()">Q</div>
+  <div class="super-mobile-btn" id="superMobile" onclick="useSuper()">⚡</div>
   <div class="result-overlay" id="resultOverlay">
     <div class="result-box">
       <div class="result-title" id="resTitle">Перемога!</div>
@@ -357,26 +362,69 @@ input[type=text]:focus{outline:none;border-color:#a855f7}
     <button class="btn-back" onclick="closeModal('nickModal')" style="width:100%;margin-top:6px">Скасувати</button>
   </div>
 </div>
+<!-- Multiplayer modal -->
+<div class="modal-bg" id="mpModal">
+  <div class="modal">
+    <div class="modal-title">🌐 Мультиплеєр</div>
+    <div id="mpContent"></div>
+    <button class="btn-back" onclick="closeModal('mpModal')" style="width:100%;margin-top:8px">Закрити</button>
+  </div>
+</div>
 
 <script>
-// ===== DATA =====
+// ===== BRAWLERS (renamed, same mechanics, new 3 added) =====
 const BRAWLERS=[
-  {id:'shelly',name:'Shelly',emo:'🐚',color:'#e67e22',baseHp:5600,baseDmg:560,speed:4.2,maxAmmo:3,reload:65,shots:3,spread:.25,bspeed:8,range:280,desc:'Дробовик — 3 кулі конусом',gadget:'Перекид',gadgetDesc:'Ривок вперед',gadgetUses:3,cost:0,rarity:'common'},
-  {id:'colt',name:'Colt',emo:'🔫',color:'#3498db',baseHp:3400,baseDmg:680,speed:5,maxAmmo:6,reload:38,shots:1,spread:0,bspeed:13,range:500,desc:'Пістолет — 6 патронів, далека дальність',gadget:'Аптечка',gadgetDesc:'Відновлює HP',gadgetUses:2,cost:0,rarity:'common'},
-  {id:'bull',name:'Bull',emo:'🐂',color:'#e74c3c',baseHp:7200,baseDmg:840,speed:3.8,maxAmmo:3,reload:80,shots:5,spread:.35,bspeed:7,range:200,desc:'Дробовик ближнього бою',gadget:'Заряд',gadgetDesc:'Ривок вперед',gadgetUses:3,cost:0,rarity:'common'},
-  {id:'brock',name:'Brock',emo:'🚀',color:'#f39c12',baseHp:3200,baseDmg:1000,speed:4.2,maxAmmo:4,reload:90,shots:1,spread:0,bspeed:11,range:600,desc:'Ракети — потужний урон',gadget:'Ракетний дощ',gadgetDesc:'3 ракети по ворогу',gadgetUses:2,cost:500,rarity:'rare'},
-  {id:'nita',name:'Nita',emo:'🐻',color:'#8e44ad',baseHp:4200,baseDmg:800,speed:4,maxAmmo:3,reload:65,shots:2,spread:.1,bspeed:9,range:350,desc:'Ведмедиця — 2 кулі',gadget:'Лікування',gadgetDesc:'Відновлює HP',gadgetUses:2,cost:500,rarity:'rare'},
-  {id:'piper',name:'Piper',emo:'☂️',color:'#fd79a8',baseHp:2800,baseDmg:1400,speed:4.5,maxAmmo:2,reload:100,shots:1,spread:0,bspeed:15,range:700,desc:'Снайпер — великий урон',gadget:'Стрибок назад',gadgetDesc:'Стрибок + 2 постріли',gadgetUses:2,cost:800,rarity:'rare'},
-  {id:'poco',name:'Poco',emo:'🎸',color:'#e056fd',baseHp:4800,baseDmg:560,speed:4,maxAmmo:3,reload:60,shots:3,spread:.2,bspeed:9,range:320,desc:'Музикант — широкий постріл',gadget:'Соло хіл',gadgetDesc:'Відновлює багато HP',gadgetUses:1,cost:600,rarity:'rare'},
-  {id:'jessie',name:'Jessie',emo:'⚡',color:'#2ecc71',baseHp:3800,baseDmg:760,speed:4,maxAmmo:3,reload:75,shots:1,spread:.05,bspeed:10,range:400,desc:'Ланцюгова куля — рикошет',gadget:'Турель',gadgetDesc:'Міні-турель',gadgetUses:1,cost:700,rarity:'rare'},
-  {id:'sandy',name:'Sandy',emo:'🌪️',color:'#f4a261',baseHp:4400,baseDmg:720,speed:4.3,maxAmmo:4,reload:55,shots:2,spread:.15,bspeed:9,range:380,desc:'Піщаний вихор — 2 кулі',gadget:'Невидимість',gadgetDesc:'3 сек невидимість',gadgetUses:1,cost:0,rarity:'epic'},
-  {id:'crow',name:'Crow',emo:'🐦',color:'#2d3436',baseHp:3000,baseDmg:600,speed:5.2,maxAmmo:5,reload:45,shots:3,spread:.3,bspeed:11,range:420,desc:'Отруйні кинджали — 3 кулі',gadget:'Стрибок',gadgetDesc:'Великий стрибок вперед',gadgetUses:2,cost:0,rarity:'epic'},
-  {id:'leon',name:'Leon',emo:'🦎',color:'#00b894',baseHp:3600,baseDmg:900,speed:4.8,maxAmmo:3,reload:70,shots:4,spread:.28,bspeed:10,range:260,desc:'Шаркани — 4 кулі конусом',gadget:'Невидимість',gadgetDesc:'Стає невидимим 4 сек',gadgetUses:1,cost:0,rarity:'legendary'},
-  {id:'spike',name:'Spike',emo:'🌵',color:'#55efc4',baseHp:3200,baseDmg:1100,speed:3.9,maxAmmo:3,reload:85,shots:1,spread:.4,bspeed:8,range:350,desc:'Кактус — куля розлітається',gadget:'Міні-кактуси',gadgetDesc:'5 кактусів навколо',gadgetUses:1,cost:0,rarity:'legendary'},
+  // Original renamed
+  {id:'shelly',name:'Буря',emo:'🌊',color:'#e67e22',baseHp:5600,baseDmg:560,speed:2.8,maxAmmo:3,reload:65,shots:3,spread:.25,bspeed:8,range:280,
+   desc:'Дробовик — 3 кулі конусом',gadget:'Перекид',gadgetDesc:'Ривок вперед',gadgetUses:3,cost:0,rarity:'common',
+   superName:'Щит бурі',superDesc:'Тимчасовий щит на 2 сек (50% зниж. урону)',superHits:8},
+  {id:'colt',name:'Снайк',emo:'🎯',color:'#3498db',baseHp:3400,baseDmg:680,speed:3.2,maxAmmo:6,reload:38,shots:1,spread:0,bspeed:13,range:500,
+   desc:'Пістолет — 6 патронів, далека дальність',gadget:'Аптечка',gadgetDesc:'Відновлює HP',gadgetUses:2,cost:0,rarity:'common',
+   superName:'Шквал куль',superDesc:'Випускає 12 куль у конусі',superHits:10},
+  {id:'bull',name:'Тавр',emo:'🦬',color:'#e74c3c',baseHp:7200,baseDmg:840,speed:2.5,maxAmmo:3,reload:80,shots:5,spread:.35,bspeed:7,range:200,
+   desc:'Дробовик ближнього бою',gadget:'Заряд',gadgetDesc:'Ривок вперед',gadgetUses:3,cost:0,rarity:'common',
+   superName:'Берсерк',superDesc:'Подвоює урон і швидкість на 3 сек',superHits:6},
+  {id:'brock',name:'Рокет',emo:'🚀',color:'#f39c12',baseHp:3200,baseDmg:1000,speed:2.9,maxAmmo:4,reload:90,shots:1,spread:0,bspeed:11,range:600,
+   desc:'Ракети — потужний урон',gadget:'Ракетний дощ',gadgetDesc:'3 ракети по ворогу',gadgetUses:2,cost:500,rarity:'rare',
+   superName:'Мегаракета',superDesc:'Одна величезна ракета (3x урон)',superHits:12},
+  {id:'nita',name:'Звіра',emo:'🐻',color:'#8e44ad',baseHp:4200,baseDmg:800,speed:3.0,maxAmmo:3,reload:65,shots:2,spread:.1,bspeed:9,range:350,
+   desc:'Ведмедиця — 2 кулі',gadget:'Лікування',gadgetDesc:'Відновлює HP',gadgetUses:2,cost:500,rarity:'rare',
+   superName:'Поклик зграї',superDesc:'5 куль у всіх напрямках',superHits:9},
+  {id:'piper',name:'Роза',emo:'🌹',color:'#fd79a8',baseHp:2800,baseDmg:1400,speed:3.3,maxAmmo:2,reload:100,shots:1,spread:0,bspeed:15,range:700,
+   desc:'Снайпер — великий урон',gadget:'Стрибок назад',gadgetDesc:'Стрибок + 2 постріли',gadgetUses:2,cost:800,rarity:'rare',
+   superName:'Прицільний постріл',superDesc:'Куля пробиває всіх ворогів наскрізь',superHits:14},
+  {id:'poco',name:'Маестро',emo:'🎸',color:'#e056fd',baseHp:4800,baseDmg:560,speed:3.0,maxAmmo:3,reload:60,shots:3,spread:.2,bspeed:9,range:320,
+   desc:'Музикант — широкий постріл',gadget:'Соло хіл',gadgetDesc:'Відновлює багато HP',gadgetUses:1,cost:600,rarity:'rare',
+   superName:'Акорд відновлення',superDesc:'Лікує всіх союзників +2000 HP',superHits:8},
+  {id:'jessie',name:'Іскра',emo:'⚡',color:'#2ecc71',baseHp:3800,baseDmg:760,speed:3.0,maxAmmo:3,reload:75,shots:1,spread:.05,bspeed:10,range:400,
+   desc:'Ланцюгова куля — рикошет',gadget:'Турель',gadgetDesc:'Міні-турель',gadgetUses:1,cost:700,rarity:'rare',
+   superName:'Ланцюгова блискавка',superDesc:'Рикошетна куля між 3 ворогами',superHits:11},
+  {id:'sandy',name:'Симун',emo:'🌪️',color:'#f4a261',baseHp:4400,baseDmg:720,speed:3.2,maxAmmo:4,reload:55,shots:2,spread:.15,bspeed:9,range:380,
+   desc:'Піщаний вихор — 2 кулі',gadget:'Невидимість',gadgetDesc:'3 сек невидимість',gadgetUses:1,cost:0,rarity:'epic',
+   superName:'Пісчана буря',superDesc:'Невидимий і прискорений на 4 сек',superHits:10},
+  {id:'crow',name:'Тінь',emo:'🦅',color:'#2d3436',baseHp:3000,baseDmg:600,speed:3.8,maxAmmo:5,reload:45,shots:3,spread:.3,bspeed:11,range:420,
+   desc:'Отруйні кинджали — 3 кулі',gadget:'Стрибок',gadgetDesc:'Великий стрибок вперед',gadgetUses:2,cost:0,rarity:'epic',
+   superName:'Отруйна хмара',superDesc:'8 отруйних куль по колу',superHits:9},
+  {id:'leon',name:'Хамелеон',emo:'🦎',color:'#00b894',baseHp:3600,baseDmg:900,speed:3.5,maxAmmo:3,reload:70,shots:4,spread:.28,bspeed:10,range:260,
+   desc:'Лезо — 4 кулі конусом',gadget:'Невидимість',gadgetDesc:'Стає невидимим 4 сек',gadgetUses:1,cost:0,rarity:'legendary',
+   superName:'Вихор лез',superDesc:'Спінінг: 6 куль по колу миттєво',superHits:7},
+  {id:'spike',name:'Тернина',emo:'🌵',color:'#55efc4',baseHp:3200,baseDmg:1100,speed:2.7,maxAmmo:3,reload:85,shots:1,spread:.4,bspeed:8,range:350,
+   desc:'Кактус — куля розлітається',gadget:'Міні-кактуси',gadgetDesc:'5 кактусів навколо',gadgetUses:1,cost:0,rarity:'legendary',
+   superName:'Кактусове поле',superDesc:'10 шипів у всіх напрямках (2x дальність)',superHits:13},
+  // 3 NEW brawlers
+  {id:'volt',name:'Вольт',emo:'🔆',color:'#ffe100',baseHp:4000,baseDmg:750,speed:3.4,maxAmmo:4,reload:50,shots:1,spread:0,bspeed:14,range:450,
+   desc:'Електрика — куля залишає поле шоку',gadget:'Перезарядка',gadgetDesc:'Миттєво відновлює всі патрони',gadgetUses:2,cost:900,rarity:'epic',
+   superName:'Блискавковий удар',superDesc:'Б\'є блискавкою по всіх ворогах одночасно',superHits:10},
+  {id:'frost',name:'Мороз',emo:'❄️',color:'#74b9ff',baseHp:4600,baseDmg:650,speed:2.6,maxAmmo:3,reload:70,shots:2,spread:.12,bspeed:8,range:340,
+   desc:'Крига — уповільнює ворогів на 1 сек',gadget:'Льодовий щит',gadgetDesc:'Щит поглинає 2000 урону',gadgetUses:2,cost:1100,rarity:'epic',
+   superName:'Заморозка',superDesc:'Заморожує всіх ворогів на 2 сек',superHits:11},
+  {id:'phantom',name:'Привид',emo:'👻',color:'#b2bec3',baseHp:2600,baseDmg:1300,speed:4.0,maxAmmo:2,reload:110,shots:1,spread:0,bspeed:16,range:650,
+   desc:'Привид — проходить крізь стіни',gadget:'Зникнення',gadgetDesc:'На 2 сек проходить крізь стіни',gadgetUses:3,cost:1500,rarity:'legendary',
+   superName:'Дух смерті',superDesc:'Куля проходить крізь стіни і ворогів',superHits:15},
 ];
 
-const ICONS=['🐚','🔫','🐂','🚀','🐻','☂️','🎸','⚡','🌪️','🐦','🦎','🌵','⭐','💎','🔥','❄️','👑','🦁','🐉','🎯'];
-const ICON_COSTS={0:0,1:0,2:0,3:30,4:30,5:50,6:50,7:50,8:80,9:80,10:100,11:100,12:0,13:50,14:30,15:30,16:80,17:50,18:100,19:30};
+const ICONS=['🌊','🎯','🦬','🚀','🐻','🌹','🎸','⚡','🌪️','🦅','🦎','🌵','🔆','❄️','👻','🔥','👑','🦁','🐉','⭐'];
+const ICON_COSTS={0:0,1:0,2:0,3:30,4:30,5:50,6:50,7:50,8:80,9:80,10:100,11:100,12:80,13:50,14:100,15:30,16:80,17:50,18:100,19:30};
 
 const MODES=[
   {id:'duel',name:'Дуель',emo:'⚔️',desc:'1 на 1 з ботом. Класичний режим.',bots:1,team:false},
@@ -384,6 +432,7 @@ const MODES=[
   {id:'clash',name:'Зіткнення',emo:'💥',desc:'Всі проти всіх! Виживи останнім.',bots:7,team:false,ffa:true},
 ];
 
+// Only 1 daily gift per day
 const DAILY_GIFTS=[
   {emo:'🪙',name:'+200 монет',type:'coins',val:200},
   {emo:'🎟',name:'+30 білетів',type:'tickets',val:30},
@@ -407,16 +456,15 @@ const UPGRADE_COSTS=[0,200,400,800,1500,2500,4000,6000,9000,13000];
 // ===== SAVE STATE =====
 function defState(){return{
   coins:1500,gems:120,tickets:50,wins:0,
-  nick:'Гравець',icon:'🐚',
-  ownedIcons:[0,1,2,12],
-  brawlers:BRAWLERS.map((b,i)=>({id:b.id,owned:i<3||b.rarity==='epic'||b.rarity==='legendary'?i<3:false,power:1,trophies:0})),
-  dailyClaimed:[],dailyDate:'',
+  nick:'Гравець',icon:'🌊',
+  ownedIcons:[0,1,2,19],
+  brawlers:BRAWLERS.map((b,i)=>({id:b.id,owned:i<3,power:1,trophies:0})),
+  dailyClaimed:false,dailyDate:'',
   selBrawler:'shelly',selMode:'duel',
 }}
-let S=JSON.parse(localStorage.getItem('brawljs')||'null')||defState();
-// migrate new brawlers
-BRAWLERS.forEach((b,i)=>{if(!S.brawlers.find(x=>x.id===b.id))S.brawlers.push({id:b.id,owned:false,power:1,trophies:0});});
-function save(){localStorage.setItem('brawljs',JSON.stringify(S));}
+let S=JSON.parse(localStorage.getItem('brawljs2')||'null')||defState();
+BRAWLERS.forEach(b=>{if(!S.brawlers.find(x=>x.id===b.id))S.brawlers.push({id:b.id,owned:false,power:1,trophies:0});});
+function save(){localStorage.setItem('brawljs2',JSON.stringify(S));}
 
 function getBrawler(id){return BRAWLERS.find(b=>b.id===id);}
 function getSave(id){return S.brawlers.find(b=>b.id===id);}
@@ -451,30 +499,31 @@ function goTab(tab,btn){
   upTopBar();
 }
 
-// ===== DAILY GIFTS =====
+// ===== DAILY GIFTS — 1 per day =====
 function checkDaily(){
   const today=new Date().toDateString();
-  if(S.dailyDate!==today){S.dailyDate=today;S.dailyClaimed=[];save();}
+  if(S.dailyDate!==today){S.dailyDate=today;S.dailyClaimed=false;save();}
 }
 function renderDailyGifts(){
   checkDaily();
   const row=document.getElementById('dailyGiftRow');
-  row.innerHTML='<div class="sec">Щоденні подарунки</div><div class="gift-row" id="giftRowInner"></div>';
-  const inner=document.getElementById('giftRowInner');
-  DAILY_GIFTS.forEach((g,i)=>{
-    const claimed=S.dailyClaimed.includes(i);
-    const avail=!claimed&&(i===0||S.dailyClaimed.includes(i-1));
-    const d=document.createElement('div');
-    d.className='gift-item'+(claimed?' claimed':avail?' available':'');
-    d.innerHTML=`<div class="gift-emo">${g.emo}</div><div class="gift-lbl">${claimed?'✅':avail?'Взяти!':g.name}</div>`;
-    if(avail)d.onclick=()=>claimGift(i);
-    inner.appendChild(d);
-  });
+  // Pick gift of the day based on day index
+  const dayIdx=Math.floor(Date.now()/86400000)%DAILY_GIFTS.length;
+  const g=DAILY_GIFTS[dayIdx];
+  const claimed=S.dailyClaimed===true;
+  row.innerHTML=`<div class="sec">Щоденний подарунок</div>
+    <div class="gift-item ${claimed?'claimed':'available'}" style="display:inline-flex;flex-direction:column;align-items:center;margin-bottom:12px;min-width:120px;${claimed?'':'cursor:pointer'}" ${claimed?'':'onclick="claimGift()"'}>
+      <div class="gift-emo" style="font-size:30px">${g.emo}</div>
+      <div style="color:#e2b8ff;font-size:13px;font-weight:600;margin-top:4px">${g.name}</div>
+      <div class="gift-lbl">${claimed?'✅ Отримано':'👆 Натисни!'}</div>
+    </div>`;
 }
-function claimGift(i){
-  const g=DAILY_GIFTS[i];
+function claimGift(){
+  if(S.dailyClaimed)return;
+  const dayIdx=Math.floor(Date.now()/86400000)%DAILY_GIFTS.length;
+  const g=DAILY_GIFTS[dayIdx];
   applyReward(g);
-  S.dailyClaimed.push(i);
+  S.dailyClaimed=true;
   save();upTopBar();renderDailyGifts();
   alert(g.emo+' '+g.name+' отримано!');
 }
@@ -517,7 +566,9 @@ function renderHome(){
     document.getElementById('selEmo').textContent=sel.emo;
     document.getElementById('selName').textContent=sel.name;
     document.getElementById('selDesc').textContent=sel.desc;
-    document.getElementById('selGadgetDesc').textContent='Q: '+sel.gadget+' — '+sel.gadgetDesc;
+    const gadgetLocked=selSv.power<5;
+    document.getElementById('selGadgetDesc').textContent='Q: '+sel.gadget+' — '+(gadgetLocked?'🔒 Розбл. при силі 5':sel.gadgetDesc);
+    document.getElementById('selSuperDesc').textContent='⚡ Супер: '+sel.superName+' — '+sel.superDesc+' ('+sel.superHits+' попадань)';
     document.getElementById('selPow').textContent=selSv.power;
     document.getElementById('selTrophy').textContent=selSv.trophies;
   }
@@ -537,6 +588,7 @@ function openUpgrade(){
     <div style="color:#a855f7;font-size:14px;margin-top:4px">Сила ${sb.power}/${maxPow}</div>
     <div class="upg-bar" style="margin:8px 0"><div class="upg-fill" style="width:${(sb.power/maxPow)*100}%"></div></div>
     <div style="color:#8878aa;font-size:12px">HP: ${Math.round(b.baseHp*pm)} | Урон: ${Math.round(b.baseDmg*pm)}</div>
+    ${sb.power>=5?'<div style="color:#2ecc71;font-size:11px;margin-top:4px">✅ Гаджет розблоковано!</div>':'<div style="color:#f39c12;font-size:11px;margin-top:4px">🔒 Гаджет: потрібна сила 5</div>'}
   </div>`;
   if(sb.power<maxPow){
     const cost=UPGRADE_COSTS[sb.power];
@@ -567,8 +619,8 @@ function doUpgrade(){
 // ===== CHESTS =====
 const CHESTS=[
   {id:'rare',name:'Рідкісна скриня',emo:'📦',color:'#3498db',cost:100,items:3,brawlerChance:0,desc:'3 предмети'},
-  {id:'epic',name:'Епічна скриня',emo:'💜',color:'#8e44ad',cost:500,items:5,brawlerChance:0.5,desc:'5 предметів, шанс бравлера'},
-  {id:'legendary',name:'Легендарна скриня',emo:'⭐',color:'#f1c40f',cost:1500,items:8,brawlerChance:1,desc:'8 предметів + гарантований бравлер'},
+  {id:'epic',name:'Епічна скриня',emo:'💜',color:'#8e44ad',cost:500,items:5,brawlerChance:0.5,desc:'5 предметів, шанс бійця'},
+  {id:'legendary',name:'Легендарна скриня',emo:'⭐',color:'#f1c40f',cost:1500,items:8,brawlerChance:1,desc:'8 предметів + гарантований боєць'},
 ];
 const CHEST_REWARDS_POOL=[
   {type:'coins',emo:'🪙',name:'+200 монет',val:200,w:40},
@@ -641,7 +693,7 @@ function openChestById(id,deduct=false){
   renderChests();
 }
 
-// ===== SHOP =====
+// ===== SHOP — gadgets only unlocked at power 5, cost 750 =====
 function renderShop(){
   const c=document.getElementById('shopContent');
   c.innerHTML='';
@@ -660,6 +712,35 @@ function renderShop(){
     brawlersSection.appendChild(el);
   });
   c.appendChild(brawlersSection);
+
+  // Gadget section — requires power 5
+  const gadgetSection=document.createElement('div');
+  gadgetSection.innerHTML='<div class="sec">Гаджети (потрібна сила 5+)</div>';
+  S.brawlers.filter(sb=>sb.owned).forEach(sb=>{
+    const b=getBrawler(sb.id);if(!b)return;
+    const hasPower=sb.power>=5;
+    const hasGadget=sb.gadgetUnlocked||false;
+    if(hasGadget)return; // already unlocked
+    const can=hasPower&&S.coins>=750;
+    const el=document.createElement('div');
+    el.className='shop-item';
+    el.innerHTML=`<div class="shop-emo">${b.emo}</div>
+      <div class="shop-info">
+        <div class="shop-name">${b.name}: ${b.gadget}</div>
+        <div class="shop-desc">${hasPower?b.gadgetDesc:'🔒 Потрібна сила 5 (зараз: '+sb.power+')'}</div>
+      </div>
+      <button class="btn-yellow" ${can?'':'disabled'} onclick="buyGadget('${b.id}')">🪙750</button>`;
+    gadgetSection.appendChild(el);
+  });
+  const unlockedCount=S.brawlers.filter(sb=>sb.gadgetUnlocked).length;
+  if(unlockedCount>0){
+    const info=document.createElement('div');
+    info.style.cssText='color:#2ecc71;font-size:12px;padding:6px 0';
+    info.textContent=`✅ ${unlockedCount} гаджет(ів) розблоковано`;
+    gadgetSection.appendChild(info);
+  }
+  c.appendChild(gadgetSection);
+
   const iconSection=document.createElement('div');
   iconSection.innerHTML='<div class="sec">Іконки за кристали</div>';
   ICONS.forEach((ico,i)=>{
@@ -693,6 +774,12 @@ function buyBrawler(id){
   if(!b||!sb||sb.owned||S.coins<b.cost)return;
   S.coins-=b.cost;sb.owned=true;save();upTopBar();renderShop();
   alert('🎉 '+b.name+' куплено!');
+}
+function buyGadget(id){
+  const sb=getSave(id);const b=getBrawler(id);
+  if(!sb||!b||sb.gadgetUnlocked||sb.power<5||S.coins<750)return;
+  S.coins-=750;sb.gadgetUnlocked=true;save();upTopBar();renderShop();
+  alert('🎉 Гаджет "'+b.gadget+'" для '+b.name+' розблоковано!');
 }
 function buyIcon(i){
   const cost=ICON_COSTS[i]||0;
@@ -743,14 +830,15 @@ function changeNick(){
 }
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-// ===== FRIENDS =====
-const FRIENDS=[
-  {name:'Павлік',emo:'🐷',online:false,tr:180},{name:'Нікіта',emo:'👑',online:true,tr:520},
-  {name:'Денис',emo:'🌿',online:true,tr:310},{name:'Влад',emo:'🎮',online:false,tr:90},{name:'Скопюк',emo:'⚡',online:true,tr:440},
-];
+// ===== FRIENDS — cleared =====
+const FRIENDS=[];
 function renderFriends(){
   const c=document.getElementById('friendsContent');
   c.innerHTML='<div class="sec">Друзі</div>';
+  if(!FRIENDS.length){
+    c.innerHTML+='<div style="color:#8878aa;font-size:14px;text-align:center;padding:30px 0">😔 Список друзів порожній<br><span style="font-size:12px">Запроси друзів через мультиплеєр!</span></div>';
+    return;
+  }
   FRIENDS.forEach(f=>{
     const el=document.createElement('div');
     el.className='friend-item';
@@ -768,9 +856,89 @@ function getTrophyDelta(bTrophies,win){
   return win?4:-8;
 }
 
+// ===== MULTIPLAYER (BroadcastChannel local multi-tab) =====
+let mpChannel=null;
+let mpRole=null; // 'host' or 'guest'
+let mpRoomCode='';
+let mpReady=false;
+
+function openMultiplayer(){
+  const c=document.getElementById('mpContent');
+  c.innerHTML=`
+    <div style="margin-bottom:12px;color:#8878aa;font-size:12px;text-align:center">Мультиплеєр працює між вкладками одного браузера або через спільний WebRTC (в розробці). Відкрий гру у двох вкладках!</div>
+    <button class="btn-purple" onclick="mpCreateRoom()" style="margin-bottom:8px">🏠 Створити кімнату</button>
+    <div style="color:#8878aa;font-size:12px;text-align:center;margin:6px 0">або</div>
+    <input type="text" id="mpCodeInput" placeholder="Код кімнати (4 цифри)..." maxlength="4" style="margin-bottom:8px;text-align:center;font-size:20px;letter-spacing:6px">
+    <button class="btn-purple" onclick="mpJoinRoom()" style="background:#2d8a4e">🚪 Приєднатись</button>
+    <div id="mpStatus" style="margin-top:12px;text-align:center;color:#8878aa;font-size:13px"></div>
+  `;
+  document.getElementById('mpModal').classList.add('open');
+}
+function mpCreateRoom(){
+  mpRoomCode=String(Math.floor(1000+Math.random()*9000));
+  mpRole='host';
+  if(mpChannel)mpChannel.close();
+  mpChannel=new BroadcastChannel('brawljs_'+mpRoomCode);
+  mpChannel.onmessage=e=>mpHandleMsg(e.data);
+  document.getElementById('mpStatus').innerHTML=`
+    <div class="mp-code">
+      <div style="color:#8878aa;font-size:12px">Код кімнати:</div>
+      <div class="mp-code-val">${mpRoomCode}</div>
+      <div style="color:#8878aa;font-size:11px">Поділись кодом з другом!</div>
+    </div>
+    <div id="mpPlayers">
+      <div class="mp-player"><div style="font-size:20px">${S.icon}</div><div style="margin-left:8px"><div style="color:#e2b8ff;font-weight:600">${S.nick}</div><div style="color:#2ecc71;font-size:11px">● Господар</div></div></div>
+      <div style="color:#8878aa;font-size:12px;text-align:center;padding:10px">Чекаємо гравця 2...</div>
+    </div>
+    <div id="mpStartBtn"></div>
+  `;
+}
+function mpJoinRoom(){
+  const code=document.getElementById('mpCodeInput').value.trim();
+  if(code.length!==4){alert('Введи 4-значний код!');return;}
+  mpRoomCode=code;
+  mpRole='guest';
+  if(mpChannel)mpChannel.close();
+  mpChannel=new BroadcastChannel('brawljs_'+mpRoomCode);
+  mpChannel.onmessage=e=>mpHandleMsg(e.data);
+  mpChannel.postMessage({type:'join',nick:S.nick,icon:S.icon,brawler:S.selBrawler});
+  document.getElementById('mpStatus').innerHTML=`<div style="color:#f1c40f">🔍 Підключаємось до кімнати ${code}...</div>`;
+}
+function mpHandleMsg(data){
+  if(data.type==='join'&&mpRole==='host'){
+    const pl=document.getElementById('mpPlayers');
+    if(pl){
+      pl.innerHTML=`
+        <div class="mp-player"><div style="font-size:20px">${S.icon}</div><div style="margin-left:8px"><div style="color:#e2b8ff;font-weight:600">${S.nick}</div><div style="color:#2ecc71;font-size:11px">● Господар</div></div></div>
+        <div class="mp-player"><div style="font-size:20px">${data.icon}</div><div style="margin-left:8px"><div style="color:#e2b8ff;font-weight:600">${data.nick}</div><div style="color:#3498db;font-size:11px">● Гравець 2</div></div></div>
+      `;
+    }
+    const sb=document.getElementById('mpStartBtn');
+    if(sb)sb.innerHTML='<button class="btn-purple" onclick="mpStartGame(\''+data.brawler+'\')" style="margin-top:8px">▶️ Почати гру!</button>';
+    mpChannel.postMessage({type:'joined',nick:S.nick,icon:S.icon,brawler:S.selBrawler,host:true});
+  }
+  if(data.type==='joined'&&mpRole==='guest'){
+    document.getElementById('mpStatus').innerHTML=`
+      <div style="color:#2ecc71;margin-bottom:8px">✅ Підключено!</div>
+      <div class="mp-player"><div style="font-size:20px">${data.icon}</div><div style="margin-left:8px"><div style="color:#e2b8ff;font-weight:600">${data.nick}</div><div style="color:#2ecc71;font-size:11px">● Господар</div></div></div>
+      <div class="mp-player"><div style="font-size:20px">${S.icon}</div><div style="margin-left:8px"><div style="color:#e2b8ff;font-weight:600">${S.nick}</div><div style="color:#3498db;font-size:11px">● Ти (Гравець 2)</div></div></div>
+      <div style="color:#8878aa;font-size:12px;text-align:center;padding:10px">Чекаємо старту від господаря...</div>
+    `;
+  }
+  if(data.type==='start'){
+    closeModal('mpModal');
+    startGame(data.p2brawler);
+  }
+}
+function mpStartGame(p2brawler){
+  mpChannel.postMessage({type:'start',p2brawler:p2brawler});
+  closeModal('mpModal');
+  startGame(p2brawler);
+}
+
 // ===== GAME =====
 let GS=null;
-function startGame(){
+function startGame(p2BrawlerOverride){
   const b=getBrawler(S.selBrawler)||BRAWLERS[0];
   const sb=getSave(S.selBrawler);
   const mode=MODES.find(m=>m.id===S.selMode)||MODES[0];
@@ -784,22 +952,43 @@ function startGame(){
   const ctx=cv.getContext('2d');
   const isMobile=('ontouchstart' in window);
   document.getElementById('joystickZone').style.display=isMobile?'block':'none';
-  document.getElementById('shootZone').style.display=isMobile?'flex':'none';
+  document.getElementById('aimZone').style.display=isMobile?'flex':'none';
   document.getElementById('gadgetMobile').style.display=isMobile?'flex':'none';
+  document.getElementById('superMobile').style.display=isMobile?'flex':'none';
   const pm=getPowerMult(sb.power);
   const pHp=Math.round(b.baseHp*pm);
   const pDmg=Math.round(b.baseDmg*pm);
   document.getElementById('pLabel').textContent=b.emo+' '+b.name;
   document.getElementById('gadgetName').textContent=b.gadget;
-  let gadgetUses=b.gadgetUses;
+  document.getElementById('superName').textContent=b.superName;
+
+  // Gadget — requires power 5 AND bought from shop
+  const gadgetUnlocked=(sb.gadgetUnlocked===true||sb.power>=5);
+  let gadgetUses=gadgetUnlocked?b.gadgetUses:0;
   let gadgetActive=false;
+
+  // Super system
+  let superCharge=0;
+  const superMax=b.superHits;
+  let superReady=false;
+
   function updGadget(){
-    document.getElementById('gadgetCount').textContent=gadgetUses+'/'+b.gadgetUses;
+    document.getElementById('gadgetCount').textContent=gadgetUnlocked?(gadgetUses+'/'+b.gadgetUses):'🔒';
     const btn=document.getElementById('gadgetBtn');
-    btn.className='gad-btn'+(gadgetUses>0?' ready':' used');
-    document.getElementById('gadgetMobile').style.opacity=gadgetUses>0?'1':'.4';
+    btn.className='gad-btn'+(gadgetUses>0&&gadgetUnlocked?' ready':' used');
+    document.getElementById('gadgetMobile').style.opacity=(gadgetUses>0&&gadgetUnlocked)?'1':'.4';
   }
-  updGadget();
+  function updSuper(){
+    const pct=Math.min(100,Math.round((superCharge/superMax)*100));
+    document.getElementById('superFill').style.width=pct+'%';
+    superReady=superCharge>=superMax;
+    const btn=document.getElementById('superBtnHud');
+    btn.className='super-btn-hud'+(superReady?' ready':'');
+    const mob=document.getElementById('superMobile');
+    mob.className='super-mobile-btn'+(superReady?' ready':'');
+  }
+  updGadget();updSuper();
+
   let ammo=b.maxAmmo,reloadProg=0;
   const ammoRow=document.getElementById('ammoRow');
   ammoRow.innerHTML='';
@@ -809,11 +998,13 @@ function startGame(){
     for(let i=0;i<pips.length;i++)pips[i].className='ap'+(i<ammo?' full':'');
     document.getElementById('reloadInfo').textContent=ammo<b.maxAmmo?'Перезарядка '+(Math.round(reloadProg/b.reload*100))+'%':'';
   }
+
   // Entities
   function mkBot(brawlerDef,x,y,team){
     const pm2=getPowerMult(1);
     return{x,y,hp:Math.round(brawlerDef.baseHp*pm2),maxHp:Math.round(brawlerDef.baseHp*pm2),r:16,speed:brawlerDef.speed,b:brawlerDef,
-      dmg:Math.round(brawlerDef.baseDmg*pm2),color:brawlerDef.color,face:0,shotT:0,moveT:0,tx:x,ty:y,team,isBot:true,dead:false};
+      dmg:Math.round(brawlerDef.baseDmg*pm2),color:brawlerDef.color,face:0,shotT:0,moveT:0,tx:x,ty:y,team,isBot:true,dead:false,
+      superCharge:0,frozenUntil:0};
   }
   const blueTeam=[],redTeam=[];
   const P={x:W*0.15,y:H/2,hp:pHp,maxHp:pHp,r:16,speed:b.speed,b,dmg:pDmg,color:b.color,face:0,team:'blue',isPlayer:true,dead:false};
@@ -827,13 +1018,20 @@ function startGame(){
     document.getElementById('teamScore').style.display='flex';
     document.getElementById('modeLabel').textContent='3 на 3';
   } else if(mode.ffa){
-    for(let i=0;i<7;i++) redTeam.push(mkBot(randBrawler(),W*(0.3+Math.random()*0.6),H*(0.1+Math.random()*0.8),'red'));
+    // FFA: all bots in a neutral 'ffa' pool. Use different colors per bot
+    const ffaColors=['#e74c3c','#f39c12','#2ecc71','#9b59b6','#e67e22','#1abc9c','#e91e63'];
+    for(let i=0;i<7;i++){
+      const botB=randBrawler();
+      const bot=mkBot(botB,W*(0.2+Math.random()*0.6),H*(0.1+Math.random()*0.8),'ffa'+i);
+      bot.color=ffaColors[i%ffaColors.length];
+      redTeam.push(bot);
+    }
     document.getElementById('eLabel').textContent='Боти';
     document.getElementById('teamScore').style.display='none';
   } else {
-    const eb=randBrawler();
-    redTeam.push(mkBot(eb,W*0.85,H/2,'red'));
-    document.getElementById('eLabel').textContent=eb.emo+' '+eb.name;
+    const eb=p2BrawlerOverride?getBrawler(p2BrawlerOverride):randBrawler();
+    redTeam.push(mkBot(eb||BRAWLERS[0],W*0.85,H/2,'red'));
+    document.getElementById('eLabel').textContent=(eb?eb.emo+' '+eb.name:'Бот');
     document.getElementById('teamScore').style.display='none';
   }
   let blueKills=0,redKills=0;
@@ -842,71 +1040,98 @@ function startGame(){
     {x:W/2-15,y:H/2-60,w:30,h:120},{x:W*.25-25,y:H*.2,w:50,h:18},{x:W*.25-25,y:H*.75,w:50,h:18},
     {x:W*.75-25,y:H*.2,w:50,h:18},{x:W*.75-25,y:H*.75,w:50,h:18},
   ];
-  function wallBlock(x,y,r){for(const w of WALLS)if(x+r>w.x&&x-r<w.x+w.w&&y+r>w.y&&y-r<w.y+w.h)return true;return false;}
+  function wallBlock(x,y,r,phantom){
+    if(phantom)return false;
+    for(const w of WALLS)if(x+r>w.x&&x-r<w.x+w.w&&y+r>w.y&&y-r<w.y+w.h)return true;return false;
+  }
   function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
   function dist(a,c){return Math.hypot(a.x-c.x,a.y-c.y);}
   function moveEnt(e,dx,dy,sp){
+    const phantom=(e.b&&e.b.id==='phantom'&&e._phantomWall);
     const speed=sp||e.speed*(gadgetActive&&e===P?2.5:1);
     const nx=clamp(e.x+dx*speed,e.r,W-e.r);
     const ny=clamp(e.y+dy*speed,e.r,H-e.r);
-    if(!wallBlock(nx,e.y,e.r))e.x=nx;
-    if(!wallBlock(e.x,ny,e.r))e.y=ny;
+    if(!wallBlock(nx,e.y,e.r,phantom))e.x=nx;
+    if(!wallBlock(e.x,ny,e.r,phantom))e.y=ny;
   }
   let bullets=[];let effects=[];
-  function shoot(from,angle,br,dmg,owner){
+  function shoot(from,angle,br,dmg,owner,pierce=false){
     for(let i=0;i<br.shots;i++){
       const a=angle+(i-(br.shots-1)/2)*br.spread+(Math.random()-.5)*.03;
-      bullets.push({x:from.x,y:from.y,angle:a,speed:br.bspeed,r:5,dmg,owner,range:br.range,dist:0,team:from.team,color:from.team==='blue'?'#f1c40f':'#ff4444'});
+      bullets.push({x:from.x,y:from.y,angle:a,speed:br.bspeed,r:5,dmg,owner,range:br.range,dist:0,team:from.team,
+        color:from.team==='blue'?'#f1c40f':'#ff4444',pierce,frozen:br.id==='frost'});
     }
   }
   function spawnFx(x,y,txt,col){effects.push({x,y,txt,col,life:55});}
   const keysDown={};
-  function onKey(e,v){keysDown[e.key.toLowerCase()]=v;keysDown[e.code]=v;if(v&&e.key.toLowerCase()==='q')useGadget();}
+  function onKey(e,v){
+    keysDown[e.key.toLowerCase()]=v;keysDown[e.code]=v;
+    if(v&&e.key.toLowerCase()==='q')useGadget();
+    if(v&&e.key.toLowerCase()==='r')useSuper();
+  }
   document.addEventListener('keydown',e=>onKey(e,true));
   document.addEventListener('keyup',e=>onKey(e,false));
-  // Joystick
+
+  // Joystick (movement)
   let jActive=false,jStartX=0,jStartY=0,jDX=0,jDY=0;
   const jZone=document.getElementById('joystickZone');
   const jBase=document.getElementById('jBase');
   const jKnob=document.getElementById('jKnob');
   jZone.addEventListener('touchstart',e=>{
     e.preventDefault();
-    const t=e.touches[0];
-    const rect=jZone.getBoundingClientRect();
+    const t=e.touches[0];const rect=jZone.getBoundingClientRect();
     jStartX=t.clientX-rect.left;jStartY=t.clientY-rect.top;
     jBase.style.display='block';jBase.style.left=(jStartX-40)+'px';jBase.style.top=(jStartY-40)+'px';
     jKnob.style.left='40px';jKnob.style.top='40px';
     jActive=true;jDX=0;jDY=0;
   },{passive:false});
   jZone.addEventListener('touchmove',e=>{
-    e.preventDefault();
-    if(!jActive)return;
-    const t=e.touches[0];
-    const rect=jZone.getBoundingClientRect();
-    const dx=t.clientX-rect.left-jStartX;
-    const dy=t.clientY-rect.top-jStartY;
-    const len=Math.hypot(dx,dy)||1;
-    const maxR=35;
-    const cx=Math.min(len,maxR)*dx/len;
-    const cy=Math.min(len,maxR)*dy/len;
+    e.preventDefault();if(!jActive)return;
+    const t=e.touches[0];const rect=jZone.getBoundingClientRect();
+    const dx=t.clientX-rect.left-jStartX;const dy=t.clientY-rect.top-jStartY;
+    const len=Math.hypot(dx,dy)||1;const maxR=35;
+    const cx=Math.min(len,maxR)*dx/len;const cy=Math.min(len,maxR)*dy/len;
     jKnob.style.left=(40+cx)+'px';jKnob.style.top=(40+cy)+'px';
     jDX=dx/len;jDY=dy/len;
   },{passive:false});
   jZone.addEventListener('touchend',()=>{jActive=false;jDX=0;jDY=0;jBase.style.display='none';});
-  // Shoot button
-  const shootBtn=document.getElementById('shootBtn');
-  let shootInterval=null;
-  shootBtn.addEventListener('touchstart',e=>{
+
+  // Aim joystick (right side) — drag to aim, release to shoot
+  let aActive=false,aStartX=0,aStartY=0,aDX=0,aDY=0;
+  const aZone=document.getElementById('aimZone');
+  const aBase=document.getElementById('aBase');
+  const aKnob=document.getElementById('aKnob');
+  aZone.addEventListener('touchstart',e=>{
     e.preventDefault();
-    doShoot();
-    shootInterval=setInterval(doShoot,400);
+    const t=e.touches[0];const rect=aZone.getBoundingClientRect();
+    aStartX=t.clientX-rect.left;aStartY=t.clientY-rect.top;
+    aBase.style.display='block';aBase.style.left=(aStartX-40)+'px';aBase.style.top=(aStartY-40)+'px';
+    aKnob.style.left='40px';aKnob.style.top='40px';
+    aActive=true;aDX=0;aDY=0;
   },{passive:false});
-  shootBtn.addEventListener('touchend',()=>{if(shootInterval)clearInterval(shootInterval);});
-  function doShoot(){
-    if(P.dead||ammo<=0)return;
-    shoot(P,P.face,b,pDmg,'player');
-    ammo=Math.max(0,ammo-1);reloadProg=0;updAmmo();
-  }
+  aZone.addEventListener('touchmove',e=>{
+    e.preventDefault();if(!aActive)return;
+    const t=e.touches[0];const rect=aZone.getBoundingClientRect();
+    const dx=t.clientX-rect.left-aStartX;const dy=t.clientY-rect.top-aStartY;
+    const len=Math.hypot(dx,dy)||1;const maxR=35;
+    const cx=Math.min(len,maxR)*dx/len;const cy=Math.min(len,maxR)*dy/len;
+    aKnob.style.left=(40+cx)+'px';aKnob.style.top=(40+cy)+'px';
+    aDX=dx/len;aDY=dy/len;
+    if(len>8) P.face=Math.atan2(aDY,aDX);
+  },{passive:false});
+  aZone.addEventListener('touchend',e=>{
+    e.preventDefault();
+    if(aActive&&(Math.abs(aDX)>0.15||Math.abs(aDY)>0.15)){
+      // Shoot in aimed direction
+      doShoot();
+    } else {
+      // Tap without drag = shoot forward
+      doShoot();
+    }
+    aActive=false;aDX=0;aDY=0;aBase.style.display='none';
+  },{passive:false});
+
+  // PC click to shoot
   let lastClick=0;
   cv.addEventListener('click',e=>{
     if(P.dead||ammo<=0)return;
@@ -917,8 +1142,24 @@ function startGame(){
     P.face=Math.atan2(my-P.y,mx-P.x);
     doShoot();
   });
+  // PC mouse move to aim
+  cv.addEventListener('mousemove',e=>{
+    if(P.dead)return;
+    const rect=cv.getBoundingClientRect();
+    const mx=(e.clientX-rect.left)*(W/rect.width);
+    const my=(e.clientY-rect.top)*(H/rect.height);
+    P.face=Math.atan2(my-P.y,mx-P.x);
+  });
+
+  function doShoot(){
+    if(P.dead||ammo<=0)return;
+    shoot(P,P.face,b,pDmg,'player');
+    ammo=Math.max(0,ammo-1);reloadProg=0;updAmmo();
+  }
+
+  // ===== GADGET =====
   window.useGadget=function(){
-    if(gadgetUses<=0||P.dead)return;
+    if(gadgetUses<=0||P.dead||!gadgetUnlocked)return;
     gadgetUses--;updGadget();
     const id=b.id;
     if(id==='shelly'||id==='bull'||id==='crow'||id==='leon'){
@@ -937,13 +1178,12 @@ function startGame(){
       const a=Math.atan2(P.y-(redTeam[0]?.y||H/2),P.x-(redTeam[0]?.x||W));
       moveEnt(P,Math.cos(a),Math.sin(a),P.speed*8);
       shoot(P,Math.atan2((redTeam[0]?.y||H/2)-P.y,(redTeam[0]?.x||W)-P.x),b,pDmg*1.5,'player');
-      spawnFx(P.x,P.y-22,'☂️ Стрибок!','#fd79a8');
+      spawnFx(P.x,P.y-22,'🌹 Стрибок!','#fd79a8');
     }else if(id==='jessie'){
       spawnFx(P.x,P.y-22,'⚡ Турель!','#2ecc71');
       let ts=6;const tiv=setInterval(()=>{
         if(ts--<=0||P.dead){clearInterval(tiv);return;}
-        const en=redTeam.find(e=>!e.dead);
-        if(!en)return;
+        const en=redTeam.find(e=>!e.dead);if(!en)return;
         bullets.push({x:P.x,y:P.y,angle:Math.atan2(en.y-P.y,en.x-P.x)+(Math.random()-.5)*.3,speed:9,r:5,dmg:500,owner:'player',range:500,dist:0,team:'blue',color:'#2ecc71'});
       },200);
     }else if(id==='sandy'){
@@ -955,18 +1195,124 @@ function startGame(){
         bullets.push({x:P.x,y:P.y,angle:a,speed:6,r:7,dmg:pDmg,owner:'player',range:200,dist:0,team:'blue',color:'#55efc4'});
       }
       spawnFx(P.x,P.y-22,'🌵 Кактуси!','#55efc4');
+    }else if(id==='volt'){
+      ammo=b.maxAmmo;updAmmo();spawnFx(P.x,P.y-22,'🔆 Перезаряд!','#ffe100');
+    }else if(id==='frost'){
+      P._shield=2000;spawnFx(P.x,P.y-22,'❄️ Щит!','#74b9ff');
+      setTimeout(()=>{P._shield=0;},5000);
+    }else if(id==='phantom'){
+      P._phantomWall=true;spawnFx(P.x,P.y-22,'👻 Крізь стіни!','#b2bec3');
+      setTimeout(()=>{P._phantomWall=false;},2000);
     }
   };
+
+  // ===== SUPER =====
+  window.useSuper=function(){
+    if(!superReady||P.dead)return;
+    superCharge=0;superReady=false;updSuper();
+    const id=b.id;
+    // Shield (Burst)
+    if(id==='shelly'){
+      P._shieldActive=true;spawnFx(P.x,P.y-22,'🌊 ЩИТ!','#e67e22');
+      setTimeout(()=>{P._shieldActive=false;},2000);
+    }else if(id==='colt'){
+      // 12 bullets in cone
+      for(let i=0;i<12;i++){
+        const a=P.face+(i-5.5)*0.08;
+        bullets.push({x:P.x,y:P.y,angle:a,speed:13,r:5,dmg:pDmg*0.7,owner:'player',range:500,dist:0,team:'blue',color:'#3498db'});
+      }
+      spawnFx(P.x,P.y-22,'🎯 ШКВАЛ!','#3498db');
+    }else if(id==='bull'){
+      P._berserker=true;spawnFx(P.x,P.y-22,'🦬 БЕРСЕРК!','#e74c3c');
+      setTimeout(()=>{P._berserker=false;},3000);
+    }else if(id==='brock'){
+      const target=redTeam.find(e=>!e.dead)||{x:W/2,y:H/2};
+      bullets.push({x:P.x,y:P.y,angle:Math.atan2(target.y-P.y,target.x-P.x),speed:9,r:18,dmg:pDmg*3,owner:'player',range:700,dist:0,team:'blue',color:'#ff4500'});
+      spawnFx(P.x,P.y-22,'🚀 МЕГАРАКЕТА!','#f39c12');
+    }else if(id==='nita'){
+      for(let i=0;i<5;i++){
+        const a=(i/5)*Math.PI*2;
+        bullets.push({x:P.x,y:P.y,angle:a,speed:9,r:6,dmg:pDmg,owner:'player',range:350,dist:0,team:'blue',color:'#8e44ad'});
+      }
+      spawnFx(P.x,P.y-22,'🐻 ЗГРАЯ!','#8e44ad');
+    }else if(id==='piper'){
+      // Pierce shot
+      shoot(P,P.face,b,pDmg*2,'player',true);
+      spawnFx(P.x,P.y-22,'🌹 ПРОБІЙ!','#fd79a8');
+    }else if(id==='poco'){
+      // Heal allies
+      blueTeam.forEach(e=>{if(!e.dead){e.hp=Math.min(e.maxHp,e.hp+2000);}});
+      spawnFx(P.x,P.y-22,'🎸 ЛІКУВАННЯ!','#e056fd');
+    }else if(id==='jessie'){
+      // Chain bullet
+      const target=redTeam.find(e=>!e.dead);
+      if(target){
+        let hits=0;
+        let cx=P.x,cy=P.y,tg=target;
+        const chain=()=>{
+          if(hits>=3||!tg||tg.dead)return;
+          bullets.push({x:cx,y:cy,angle:Math.atan2(tg.y-cy,tg.x-cx),speed:10,r:7,dmg:pDmg*1.2,owner:'player',range:450,dist:0,team:'blue',color:'#2ecc71'});
+          hits++;
+        };
+        chain();
+      }
+      spawnFx(P.x,P.y-22,'⚡ ЛАНЦЮГ!','#2ecc71');
+    }else if(id==='sandy'){
+      P._invisible=true;P._superSpeed=true;spawnFx(P.x,P.y-22,'🌪️ БУРЯ!','#f4a261');
+      setTimeout(()=>{P._invisible=false;P._superSpeed=false;},4000);
+    }else if(id==='crow'){
+      for(let i=0;i<8;i++){
+        const a=(i/8)*Math.PI*2;
+        bullets.push({x:P.x,y:P.y,angle:a,speed:11,r:5,dmg:pDmg*0.8,owner:'player',range:420,dist:0,team:'blue',color:'#636e72',poison:true});
+      }
+      spawnFx(P.x,P.y-22,'🦅 ОТРУТА!','#2d3436');
+    }else if(id==='leon'){
+      for(let i=0;i<6;i++){
+        const a=(i/6)*Math.PI*2;
+        bullets.push({x:P.x,y:P.y,angle:a,speed:10,r:6,dmg:pDmg,owner:'player',range:260,dist:0,team:'blue',color:'#00b894'});
+      }
+      spawnFx(P.x,P.y-22,'🦎 ВИХОР!','#00b894');
+    }else if(id==='spike'){
+      for(let i=0;i<10;i++){
+        const a=(i/10)*Math.PI*2;
+        bullets.push({x:P.x,y:P.y,angle:a,speed:7,r:8,dmg:pDmg,owner:'player',range:700,dist:0,team:'blue',color:'#55efc4'});
+      }
+      spawnFx(P.x,P.y-22,'🌵 ПОЛЕ!','#55efc4');
+    }else if(id==='volt'){
+      // Hit all enemies at once
+      allEnts().filter(e=>!e.dead&&e.team!==P.team).forEach(e=>{
+        e.hp=Math.max(0,e.hp-pDmg*2);
+        spawnFx(e.x,e.y-20,'⚡ '+Math.round(pDmg*2/100)*100,'#ffe100');
+        if(e.hp<=0&&!e.dead){e.dead=true;blueKills++;document.getElementById('blueScore').textContent=blueKills;}
+      });
+      spawnFx(P.x,P.y-22,'🔆 БЛИСКАВКА!','#ffe100');
+    }else if(id==='frost'){
+      // Freeze all enemies
+      allEnts().filter(e=>!e.dead&&e.team!==P.team).forEach(e=>{
+        e.frozenUntil=Date.now()+2000;
+        spawnFx(e.x,e.y-20,'❄️ Заморожено','#74b9ff');
+      });
+      spawnFx(P.x,P.y-22,'❄️ ЗАМОРОЗКА!','#74b9ff');
+    }else if(id==='phantom'){
+      // Piercing wall-phasing shot
+      shoot(P,P.face,{...b,shots:1,spread:0},pDmg*3,'player',true);
+      // the bullet also passes through walls
+      if(bullets.length>0)bullets[bullets.length-1].wallPhase=true;
+      spawnFx(P.x,P.y-22,'👻 ДУХ СМЕРТІ!','#b2bec3');
+    }
+  };
+
   let over=false,animId=null;
   function checkOver(){
     const allBlue=blueTeam.filter(e=>!e.dead);
     const allRed=redTeam.filter(e=>!e.dead);
     if(mode.team){
-      if(!allBlue.find(e=>e.isPlayer)&&allBlue.length===0)return'lose';
+      if(allBlue.length===0)return'lose';
       if(allRed.length===0)return'win';
     }else if(mode.ffa){
       const alive=allEnts().filter(e=>!e.dead);
-      if(alive.length<=1&&(P.dead||alive[0]===P))return P.dead?'lose':'win';
+      if(P.dead)return'lose';
+      if(alive.length<=1&&alive[0]===P)return'win';
     }else{
       if(P.dead)return'lose';
       if(allRed.every(e=>e.dead))return'win';
@@ -979,7 +1325,6 @@ function startGame(){
     const delta=getTrophyDelta(sb2.trophies,win);
     sb2.trophies=Math.max(0,sb2.trophies+delta);
     if(win){S.wins++;S.coins+=80;S.tickets+=20;}
-    // Random win gift
     let giftTxt='';
     if(win){
       const gi=Math.floor(Math.random()*WIN_GIFTS.length);
@@ -993,76 +1338,139 @@ function startGame(){
     document.getElementById('resRewards').innerHTML=(win?'<div>+80 🪙 +20 🎟</div>':'')+giftTxt;
     document.getElementById('resultOverlay').classList.add('show');
   }
+
   function gameLoop(){
     if(!over){
-      // Player move
       let dx=0,dy=0;
       if(keysDown['a']||keysDown['arrowleft'])dx-=1;
       if(keysDown['d']||keysDown['arrowright'])dx+=1;
       if(keysDown['w']||keysDown['arrowup'])dy-=1;
       if(keysDown['s']||keysDown['arrowdown'])dy+=1;
       if(jActive&&(Math.abs(jDX)>0.1||Math.abs(jDY)>0.1)){dx=jDX;dy=jDY;}
-      if(!P.dead&&(dx||dy)){const l=Math.hypot(dx,dy)||1;moveEnt(P,dx/l,dy/l);}
+      const now=Date.now();
+      const isFrozen=P.frozenUntil&&now<P.frozenUntil;
+      if(!P.dead&&!isFrozen&&(dx||dy)){const l=Math.hypot(dx,dy)||1;
+        const spd=P._superSpeed?P.speed*1.6:P.speed;
+        const bspd=P._berserker?spd*2:spd;
+        moveEnt({...P,speed:bspd},dx/l,dy/l);
+        // Actually move P
+        const phantom=(b.id==='phantom'&&P._phantomWall);
+        const eff=P._berserker?bspd:P._superSpeed?spd:P.speed;
+        const nx=clamp(P.x+dx/l*eff,P.r,W-P.r);const ny=clamp(P.y+dy/l*eff,P.r,H-P.r);
+        if(!wallBlock(nx,P.y,P.r,phantom))P.x=nx;
+        if(!wallBlock(P.x,ny,P.r,phantom))P.y=ny;
+      }
       if(!P.dead&&(dx||dy)&&!jActive)P.face=Math.atan2(dy,dx);
+
       // Ammo regen
       reloadProg++;
       if(ammo<b.maxAmmo&&reloadProg>=b.reload){ammo=Math.min(b.maxAmmo,ammo+1);reloadProg=0;}
       updAmmo();
-      // Bots AI
+
+      // BOTS AI — fixed for FFA: bots fight each other too!
       allEnts().filter(e=>e.isBot&&!e.dead).forEach(bot=>{
+        const frozenNow=Date.now();
+        if(bot.frozenUntil&&frozenNow<bot.frozenUntil)return; // frozen, skip
         bot.moveT++;
-        const enemies=allEnts().filter(e=>!e.dead&&e.team!==bot.team);
+        let enemies;
+        if(mode.ffa){
+          // FFA: target any entity that is not the same team (including player and other bots)
+          enemies=allEnts().filter(e=>!e.dead&&e.team!==bot.team);
+        } else {
+          enemies=allEnts().filter(e=>!e.dead&&e.team!==bot.team);
+        }
+        if(!enemies.length)return;
+        // Randomly re-target — not always the player, pick by proximity
         const target=enemies.reduce((a,c)=>(!a||dist(bot,c)<dist(bot,a)?c:a),null);
         if(!target)return;
         if(bot.moveT>45){bot.moveT=0;const d2=dist(bot,target);
           if(d2>bot.b.range*.6){bot.tx=target.x+(Math.random()-.5)*60;bot.ty=target.y+(Math.random()-.5)*60;}
           else{bot.tx=bot.x+(Math.random()-.5)*100;bot.ty=bot.y+(Math.random()-.5)*100;}
           bot.tx=clamp(bot.tx,20,W-20);bot.ty=clamp(bot.ty,20,H-20);}
-        const bdx=bot.tx-bot.x,bdy=bot.ty-bot.y,bl=Math.hypot(bdx,bdy)||1;
-        if(bl>4){bot.face=Math.atan2(bdy,bdx);moveEnt(bot,bdx/bl,bdy/bl);}
+        const bdx=bot.tx-bot.x,bdy=bot.ty-bot.y,bl2=Math.hypot(bdx,bdy)||1;
+        if(bl2>4){bot.face=Math.atan2(bdy,bdx);
+          const nx=clamp(bot.x+bdx/bl2*bot.speed,bot.r,W-bot.r);
+          const ny=clamp(bot.y+bdy/bl2*bot.speed,bot.r,H-bot.r);
+          if(!wallBlock(nx,bot.y,bot.r,false))bot.x=nx;
+          if(!wallBlock(bot.x,ny,bot.r,false))bot.y=ny;
+        }
         bot.shotT++;
         if(bot.shotT>bot.b.reload*1.5){bot.shotT=0;
           bot.face=Math.atan2(target.y-bot.y,target.x-bot.x);
           shoot(bot,bot.face,bot.b,bot.dmg,'bot');}
       });
+
       // Bullets
       for(let i=bullets.length-1;i>=0;i--){
         const bl=bullets[i];
         bl.x+=Math.cos(bl.angle)*bl.speed;bl.y+=Math.sin(bl.angle)*bl.speed;bl.dist+=bl.speed;
         let rm=false;
         if(bl.dist>bl.range||bl.x<0||bl.x>W||bl.y<0||bl.y>H)rm=true;
-        if(!rm)for(const w of WALLS)if(bl.x>w.x&&bl.x<w.x+w.w&&bl.y>w.y&&bl.y<w.y+w.h){rm=true;break;}
+        if(!rm&&!bl.wallPhase){for(const w of WALLS)if(bl.x>w.x&&bl.x<w.x+w.w&&bl.y>w.y&&bl.y<w.y+w.h){rm=true;break;}}
         if(!rm){
-          const targets=allEnts().filter(e=>!e.dead&&e.team!==bl.team);
+          let targets;
+          if(mode.ffa){
+            // Bullets hit anyone not on the shooter's team (incl. player shooting bots, bots shooting each other)
+            targets=allEnts().filter(e=>!e.dead&&e.team!==bl.team);
+          } else {
+            targets=allEnts().filter(e=>!e.dead&&e.team!==bl.team);
+          }
           for(const t of targets){
             if(dist(bl,t)<t.r+bl.r){
-              t.hp=Math.max(0,t.hp-bl.dmg);spawnFx(t.x,t.y-20,'-'+Math.round(bl.dmg/100)*100,t.team==='red'?'#ff4444':'#4488ff');
-              if(t.hp<=0&&!t.dead){t.dead=true;if(t.team==='red')blueKills++;else redKills++;
-                document.getElementById('blueScore').textContent=blueKills;
-                document.getElementById('redScore').textContent=redKills;}
-              rm=true;break;}}
+              let dmg=bl.dmg;
+              // Shield check for player
+              if(t===P&&P._shieldActive){dmg=Math.round(dmg*0.5);}
+              if(t===P&&P._shield>0){const ab=Math.min(dmg,P._shield);P._shield-=ab;dmg-=ab;}
+              t.hp=Math.max(0,t.hp-dmg);
+              // Frost slow
+              if(bl.frozen){t.frozenUntil=Date.now()+1000;}
+              spawnFx(t.x,t.y-20,'-'+Math.round(dmg/100)*100,bl.team==='blue'?'#ff4444':'#4488ff');
+              // Super charge on hit
+              if(bl.team==='blue'&&bl.owner==='player'){
+                superCharge=Math.min(superMax,superCharge+1);updSuper();
+              }
+              if(t.hp<=0&&!t.dead){
+                t.dead=true;
+                if(mode.ffa){
+                  if(t===P){}
+                  else if(bl.team==='blue'){blueKills++;document.getElementById('blueScore').textContent=blueKills;}
+                  else{redKills++;document.getElementById('redScore').textContent=redKills;}
+                } else {
+                  if(t.team==='red'){blueKills++;document.getElementById('blueScore').textContent=blueKills;}
+                  else{redKills++;document.getElementById('redScore').textContent=redKills;}
+                }
+              }
+              if(!bl.pierce)rm=true;
+              break;
+            }
+          }
         }
         if(rm)bullets.splice(i,1);
       }
       effects=effects.filter(e=>e.life>0);effects.forEach(e=>{e.y-=.6;e.life--;});
-      // HP bars
       if(!P.dead){document.getElementById('pHp').style.width=Math.round((P.hp/P.maxHp)*100)+'%';}
       const mainEnemy=redTeam.find(e=>!e.dead);
       if(mainEnemy)document.getElementById('eHp').style.width=Math.round((mainEnemy.hp/mainEnemy.maxHp)*100)+'%';
       const res=checkOver();if(res)endGame(res==='win');
     }
+
     // Draw
     ctx.fillStyle='#1e8c45';ctx.fillRect(0,0,W,H);
     for(let i=0;i<60;i++){ctx.fillStyle='rgba(0,90,0,.15)';ctx.fillRect((i*113)%W,(i*79+20)%H,10,5);}
     for(const w of WALLS){ctx.fillStyle='#5a4a3a';ctx.fillRect(w.x,w.y,w.w,w.h);ctx.fillStyle='#7a6a5a';ctx.fillRect(w.x,w.y,w.w,5);}
     allEnts().filter(e=>!e.dead).forEach(e=>{
       if(e._invisible&&e!==P)return;
+      const isFrz=e.frozenUntil&&Date.now()<e.frozenUntil;
       ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.face);
       ctx.globalAlpha=e._invisible?.3:1;
       ctx.beginPath();ctx.arc(0,0,e.r,0,Math.PI*2);
-      ctx.fillStyle=e.color+'55';ctx.fill();
-      ctx.strokeStyle=e===P&&gadgetActive?'#f1c40f':e.team==='blue'?'#3498db':'#e74c3c';
-      ctx.lineWidth=e===P&&gadgetActive?4:2.5;ctx.stroke();
+      ctx.fillStyle=isFrz?'#74b9ff55':(e.color+'55');ctx.fill();
+      let strokeCol=e===P&&gadgetActive?'#f1c40f':e.team==='blue'?'#3498db':e.team==='red'?'#e74c3c':e.color;
+      if(e===P&&P._shieldActive)strokeCol='#f1c40f';
+      if(e===P&&P._berserker)strokeCol='#e74c3c';
+      if(isFrz)strokeCol='#74b9ff';
+      ctx.strokeStyle=strokeCol;
+      ctx.lineWidth=e===P&&(gadgetActive||P._shieldActive||P._berserker)?4:2.5;ctx.stroke();
       ctx.fillStyle='rgba(0,0,0,.35)';ctx.fillRect(e.r*.3,-3,e.r*.8,6);
       ctx.fillStyle='#fff';ctx.fillRect(e.r*.35,-2,e.r*.65,4);
       ctx.restore();ctx.globalAlpha=e._invisible?.3:1;
@@ -1070,7 +1478,7 @@ function startGame(){
       ctx.fillText(e.b.emo,e.x,e.y+1);
       const bw=e.r*2.2;
       ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(e.x-e.r*1.1,e.y-e.r-11,bw,5);
-      ctx.fillStyle=e.team==='blue'?'#3498db':'#e74c3c';
+      ctx.fillStyle=e.team==='blue'?'#3498db':e.team==='red'?'#e74c3c':e.color;
       ctx.fillRect(e.x-e.r*1.1,e.y-e.r-11,bw*(e.hp/e.maxHp),5);
       ctx.globalAlpha=1;
     });
@@ -1081,6 +1489,21 @@ function startGame(){
       ctx.globalAlpha=ef.life/55;ctx.fillStyle=ef.col;
       ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(ef.txt,ef.x,ef.y);ctx.globalAlpha=1;
     });
+
+    // Draw aim indicator on mobile
+    if(aActive&&isMobile){
+      ctx.save();
+      ctx.strokeStyle='rgba(241,196,15,0.4)';ctx.lineWidth=2;ctx.setLineDash([5,5]);
+      ctx.beginPath();ctx.moveTo(P.x,P.y);
+      ctx.lineTo(P.x+Math.cos(P.face)*120,P.y+Math.sin(P.face)*120);
+      ctx.stroke();ctx.setLineDash([]);
+      // Arrow tip
+      ctx.fillStyle='rgba(241,196,15,0.7)';ctx.beginPath();
+      const tx=P.x+Math.cos(P.face)*120,ty=P.y+Math.sin(P.face)*120;
+      ctx.arc(tx,ty,5,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    }
+
     animId=requestAnimationFrame(gameLoop);
   }
   GS={cleanup(){
@@ -1088,6 +1511,7 @@ function startGame(){
     document.removeEventListener('keydown',e=>onKey(e,true));
     document.removeEventListener('keyup',e=>onKey(e,false));
     window.useGadget=()=>{};
+    window.useSuper=()=>{};
   }};
   gameLoop();
 }
@@ -1102,8 +1526,6 @@ function exitGame(){
 
 // ===== INIT =====
 renderHome();upTopBar();
-
-// Close modals on bg click
 document.querySelectorAll('.modal-bg').forEach(m=>{
   m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
 });
